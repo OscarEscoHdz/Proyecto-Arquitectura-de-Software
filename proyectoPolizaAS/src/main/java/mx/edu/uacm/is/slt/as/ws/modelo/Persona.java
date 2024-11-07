@@ -9,6 +9,7 @@ public class Persona {
 	private String primerApellido;
 	private String segundoApellido;
 	private Date fechaNacimiento;
+	//Comentario de prueba de comunicacion
 	
 	
 	public Persona(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento) throws Exception {
