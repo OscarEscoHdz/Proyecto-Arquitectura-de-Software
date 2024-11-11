@@ -5,6 +5,7 @@ import java.sql.Date;
 public class Cliente extends Persona{
 	private String direccion;
 	private String curp;//Este sera el identificador del cliente
+	private Poliza poliza;
 	
 	
 	public Cliente(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento, String direccion,
