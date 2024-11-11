@@ -8,7 +8,7 @@ public class Beneficiario extends Persona{
 	public Beneficiario(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento)
 			throws Exception {
 		super(nombre, primerApellido, segundoApellido, fechaNacimiento);
-		// TODO Auto-generated constructor stub
+		//TODO Auto-generated constructor stub
 	}
 	
 	public float getPorcentaje() {
