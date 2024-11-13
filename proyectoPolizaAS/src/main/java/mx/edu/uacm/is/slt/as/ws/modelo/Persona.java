@@ -4,12 +4,15 @@ import java.sql.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class Persona {
 	private String nombre;
 	private String primerApellido;
 	private String segundoApellido;
 	private Date fechaNacimiento;
-	//Comentario de cambio
+	
 	
 	
 	public Persona(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento) throws Exception {

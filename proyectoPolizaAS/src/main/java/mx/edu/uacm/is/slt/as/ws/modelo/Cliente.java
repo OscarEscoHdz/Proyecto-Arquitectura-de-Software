@@ -2,9 +2,17 @@ package mx.edu.uacm.is.slt.as.ws.modelo;
 
 import java.sql.Date;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+
+@Entity
 public class Cliente extends Persona{
 	private String direccion;
+	@Id
 	private String curp;//Este sera el identificador del cliente
+	
+	@OneToOne
 	private Poliza poliza;
 	
 	
