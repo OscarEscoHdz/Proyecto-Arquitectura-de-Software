@@ -4,6 +4,7 @@ import java.sql.Date;
 
 public class Beneficiario extends Persona{
 	private float porcentaje;
+	private Poliza poliza;
 
 	public Beneficiario(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento)
 			throws Exception {
@@ -13,6 +14,9 @@ public class Beneficiario extends Persona{
 	
 	public float getPorcentaje() {
 		return porcentaje;
+	}
+	public Poliza getPoliza() {
+		return poliza;
 	}
 
 }
