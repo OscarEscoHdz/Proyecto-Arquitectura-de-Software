@@ -11,7 +11,7 @@ import jakarta.persistence.OneToOne;
 public class Cliente extends Persona{
 	private String direccion;
 	@Id
-	private String curp;//Este sera el identificador del cliente
+	private String curp;
 	
 	@OneToOne
 	private Poliza poliza;
