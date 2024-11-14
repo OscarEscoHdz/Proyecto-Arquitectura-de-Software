@@ -1,28 +1,64 @@
 package mx.edu.uacm.is.slt.as.ws.modelo;
 
+import java.util.List;
+import java.util.UUID;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+
+@Entity
 public class Poliza {
 	
-	private String clavePoliza;
-	private String tipoSeguro;
+	@Id
+	@GeneratedValue
+	private UUID clavePoliza;
+	
+	private TipoPoliza tipoPoliza;
 	private double montoAsegurado;
 	private String descripcion;
+	
+	@OneToOne
+	@JoinColumn(name = "curp_cliente", nullable = false)
 	private Cliente cliente;
 	
-	public Poliza(String clavePoliza, String tipoSeguro, double montoAsegurado, String descripcion, Cliente cliente) {
-		
+	@OneToMany(mappedBy = "poliza", cascade = CascadeType.ALL)	
+	private List<Beneficiario> beneficiarios;
+	
+	
+	public Poliza(UUID clavePoliza, TipoPoliza tipoPoliza, double montoAsegurado, String descripcion, Cliente cliente) {
 		this.clavePoliza = clavePoliza;
-		this.tipoSeguro = tipoSeguro;
+		this.tipoPoliza = tipoPoliza;
 		this.montoAsegurado = montoAsegurado;
 		this.descripcion = descripcion;
 		this.cliente = cliente;
 	}
+	
+	
 
-	public String getClavePoliza() {
+	public Poliza(UUID clavePoliza, TipoPoliza tipoPoliza, double montoAsegurado, String descripcion, Cliente cliente,
+			List<Beneficiario> beneficiarios) {
+		super();
+		this.clavePoliza = clavePoliza;
+		this.tipoPoliza = tipoPoliza;
+		this.montoAsegurado = montoAsegurado;
+		this.descripcion = descripcion;
+		this.cliente = cliente;
+		this.beneficiarios = beneficiarios;
+	}
+
+
+
+	public UUID getClavePoliza() {
 		return clavePoliza;
 	}
 
-	public String getTipoSeguro() {
-		return tipoSeguro;
+	public TipoPoliza getTipoSeguro() {
+		return tipoPoliza;
 	}
 
 	public double getMontoAsegurado() {
