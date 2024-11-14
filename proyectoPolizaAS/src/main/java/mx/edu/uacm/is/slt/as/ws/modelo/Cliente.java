@@ -24,7 +24,7 @@ public class Cliente extends Persona{
 		super(nombre, primerApellido, segundoApellido, fechaNacimiento);
 		asignarDireccion(direccion);
 		asignarCurp(curp);
-		
+		//COmentario de prueba
 	}
 	
 //modificaciones

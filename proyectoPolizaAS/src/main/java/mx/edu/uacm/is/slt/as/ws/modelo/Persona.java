@@ -12,7 +12,7 @@ public class Persona {
 	private String primerApellido;
 	private String segundoApellido;
 	private Date fechaNacimiento;
-	
+	//COmentario de prueba
 	
 	public Persona(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento) throws Exception {
 		try {

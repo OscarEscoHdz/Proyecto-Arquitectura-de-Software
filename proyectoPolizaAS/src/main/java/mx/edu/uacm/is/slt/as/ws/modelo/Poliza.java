@@ -17,7 +17,7 @@ public class Poliza {
 	@Id
 	@GeneratedValue
 	private UUID clavePoliza;
-	
+	//comentario de prueba
 	private TipoPoliza tipoPoliza;
 	private double montoAsegurado;
 	private String descripcion;
