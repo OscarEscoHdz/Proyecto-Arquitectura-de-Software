@@ -4,13 +4,15 @@ import java.sql.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import jakarta.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public class Persona {
 	private String nombre;
 	private String primerApellido;
 	private String segundoApellido;
 	private Date fechaNacimiento;
-	//Comentario de cambio
-	
+	//COmentario de prueba
 	
 	public Persona(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento) throws Exception {
 		try {

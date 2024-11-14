@@ -16,7 +16,7 @@ public class Beneficiario extends Persona{
 	private Long id;
 	//esta clase se actualiza
 	private float porcentaje;
-	
+	//comentario de prueba
 	@ManyToOne
 	private Cliente cliente;
 	
