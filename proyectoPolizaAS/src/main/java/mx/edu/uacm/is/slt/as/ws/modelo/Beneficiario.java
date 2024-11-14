@@ -14,7 +14,7 @@ public class Beneficiario extends Persona{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+	//esta clase se actualiza
 	private float porcentaje;
 	
 	@ManyToOne
