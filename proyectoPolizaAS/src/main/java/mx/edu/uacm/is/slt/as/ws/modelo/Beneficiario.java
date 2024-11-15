@@ -21,19 +21,45 @@ public class Beneficiario extends Persona{
 	@JoinColumn(name="id_poliza")
 	private Poliza poliza;
 
-	public Beneficiario(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento)
-			throws Exception {
+
+	public Beneficiario(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento, Long id,
+			float porcentaje, Poliza poliza) throws Exception {
 		super(nombre, primerApellido, segundoApellido, fechaNacimiento);
-		//TODO Auto-generated constructor stub
+		this.id = id;
+		this.porcentaje = porcentaje;
+		this.poliza = poliza;
 	}
 
-	
+
+	public Long getId() {
+		return id;
+	}
 
 
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 
 	public float getPorcentaje() {
 		return porcentaje;
 	}
+
+
+	public void setPorcentaje(float porcentaje) {
+		this.porcentaje = porcentaje;
+	}
+
+
+	public Poliza getPoliza() {
+		return poliza;
+	}
+
+
+	public void setPoliza(Poliza poliza) {
+		this.poliza = poliza;
+	}
+
+
 
 }
