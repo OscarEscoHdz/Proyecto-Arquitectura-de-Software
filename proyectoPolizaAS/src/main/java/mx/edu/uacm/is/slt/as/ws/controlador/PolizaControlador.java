@@ -16,7 +16,7 @@ public class PolizaControlador {
 		return "Poliza con ID: "+ id;
 	}
 	
-	@PutMapping("/{id}")
+	@PutMapping("/{id}")//Se agrego metodo put
 	public String actualizarPoliza(@PathVariable("id") Long id, @RequestBody String poliza) {
 		return "\n\nPoliza con ID: " + id + " actualizada a: " + poliza +"\n\n";
 	}
