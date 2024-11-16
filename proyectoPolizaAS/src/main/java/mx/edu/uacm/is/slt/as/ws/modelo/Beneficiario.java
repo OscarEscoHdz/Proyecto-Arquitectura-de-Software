@@ -18,5 +18,4 @@ public class Beneficiario extends Persona{
 	public Poliza getPoliza() {
 		return poliza;
 	}
-
 }
