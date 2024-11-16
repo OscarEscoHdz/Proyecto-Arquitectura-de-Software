@@ -10,14 +10,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name="polizas")
 public class Poliza {
 	
 	@Id
 	@GeneratedValue
 	private UUID clavePoliza;
-	//comentario de prueba
 	private TipoPoliza tipoPoliza;
 	private double montoAsegurado;
 	private String descripcion;
