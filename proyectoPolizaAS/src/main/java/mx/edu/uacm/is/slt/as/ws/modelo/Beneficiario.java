@@ -1,6 +1,8 @@
 package mx.edu.uacm.is.slt.as.ws.modelo;
 
 import java.sql.Date;
+import java.util.Objects;
+import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -60,6 +62,20 @@ public class Beneficiario extends Persona{
 		this.poliza = poliza;
 	}
 
-
-
+	
+	 @Override
+	    public boolean equals(Object o) {
+	        if (super.equals(o)) {
+	            return true;
+	        } else if (o instanceof Beneficiario) {
+	            Beneficiario otro = (Beneficiario) o;
+	            return Objects.equals(this.id, otro.id);
+	        } else {
+	            return false;
+	        }
+	    }
+	    
+	    public int hashCode() {
+	    	return Objects.hash(this.id);
+	    }
 }
