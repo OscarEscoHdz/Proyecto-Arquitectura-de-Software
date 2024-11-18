@@ -91,5 +91,33 @@ public class Poliza {
     public int hashCode() {
     	return Objects.hash(this.clavePoliza);
     }
+
+
+
+	public void setCliente(Cliente cliente2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	public void setTipoPoliza(TipoPoliza tipoSeguro) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	public void setMontoAsegurado(double montoAsegurado2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	public void setDescripcion(String descripcion2) {
+		// TODO Auto-generated method stub
+		
+	}
     
 }
