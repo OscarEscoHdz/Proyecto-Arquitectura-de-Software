@@ -1,6 +1,8 @@
 package mx.edu.uacm.is.slt.as.ws.modelo;
 
+import java.sql.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
@@ -73,5 +75,49 @@ public class Poliza {
 	public Cliente getCliente() {
 		return cliente;
 	}
+	
+    @Override
+    public boolean equals(Object o) {
+        if (super.equals(o)) {
+            return true;
+        } else if (o instanceof Poliza) {
+            Poliza otro = (Poliza) o;
+            return Objects.equals(this.clavePoliza, otro.clavePoliza);
+        } else {
+            return false;
+        }
+    }
+    
+    public int hashCode() {
+    	return Objects.hash(this.clavePoliza);
+    }
 
+
+
+	public void setCliente(Cliente cliente2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	public void setTipoPoliza(TipoPoliza tipoSeguro) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	public void setMontoAsegurado(double montoAsegurado2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	public void setDescripcion(String descripcion2) {
+		// TODO Auto-generated method stub
+		
+	}
+    
 }

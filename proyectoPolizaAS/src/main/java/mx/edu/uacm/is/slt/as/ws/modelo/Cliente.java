@@ -1,6 +1,7 @@
 package mx.edu.uacm.is.slt.as.ws.modelo;
 
 import java.sql.Date;
+import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -45,7 +46,20 @@ public class Cliente extends Persona{
 		this.curp = curp;
 	}
 
-
-
-
+	 @Override
+	    public boolean equals(Object o) {
+	        if (super.equals(o)) {
+	            return true;
+	        } else if (o instanceof Cliente) {
+	            Cliente otro = (Cliente) o;
+	            return Objects.equals(this.curp, otro.curp);
+	        } else {
+	            return false;
+	        }
+	    }
+	    
+	    public int hashCode() {
+	    	return Objects.hash(this.curp);
+	    }
 }
+
