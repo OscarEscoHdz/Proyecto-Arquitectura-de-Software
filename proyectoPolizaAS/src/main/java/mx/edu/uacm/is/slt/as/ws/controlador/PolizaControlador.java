@@ -1,9 +1,8 @@
 package mx.edu.uacm.is.slt.as.ws.controlador;
 
 import mx.edu.uacm.is.slt.as.ws.modelo.*;
-import repository.BeneficiarioRepository;
-import repository.ClienteRepository;
-import repository.PolizaRepository;
+import mx.edu.uacm.is.slt.as.ws.repository.*;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

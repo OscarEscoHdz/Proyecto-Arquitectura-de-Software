@@ -1,4 +1,4 @@
-package repository;
+package mx.edu.uacm.is.slt.as.ws.repository;
 
 import java.util.Optional;
 
