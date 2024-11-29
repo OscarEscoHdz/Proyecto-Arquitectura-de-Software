@@ -31,22 +31,10 @@ public class PolizaControlador {
         this.beneficiarioRepository = beneficiarioRepository;
     }
 
-    // 1. Obtener todas las pólizas
-    @GetMapping("/")
-    public List<Poliza> obtenerTodasLasPolizas() {
-        return polizaRepository.findAll();
-    }
-
-    // 2. Obtener una póliza por ID
-    @GetMapping("/{id}")
-    public Poliza obtenerPoliza(@PathVariable("id") UUID id) {
-        return polizaRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Poliza no encontrada"));
-    }
 
     // 3. Crear una nueva póliza
     @PostMapping("/cliente/{curp}")
-    public Poliza crearPoliza(@PathVariable("curp") String curp, @RequestBody Poliza poliza) {
+    public Poliza crearPoliza(@PathVariable("curp") UUID curp, @RequestBody Poliza poliza) {
         Cliente cliente = clienteRepository.findByCurp(curp)
             .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
         poliza.setCliente(cliente);
@@ -73,15 +61,31 @@ public class PolizaControlador {
         return "Poliza eliminada con éxito";
     }
 
-    // 6. Obtener todas las pólizas de un cliente por CURP
-    @GetMapping("/cliente/{curp}")
-    public List<Poliza> obtenerPolizasPorCurp(@PathVariable("curp") String curp) {
-        Cliente cliente = clienteRepository.findByCurp(curp)
-            .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
-        return polizaRepository.findByCliente(cliente);
+   
+    
+    //Operaciones Get
+
+    //Devuelve todas las polizas
+    @GetMapping("/")
+    public List<Poliza> obtenerTodasLasPolizas() {
+        return polizaRepository.findAll();
     }
 
-    // 7. Obtener todas las pólizas de un beneficiario
+    //Devuelve la poliza con la clave dada
+    @GetMapping("/{id}")
+    public Poliza obtenerPoliza(@PathVariable("id") UUID id) {
+        return polizaRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Poliza no encontrada"));
+    }
+    
+    //Devuelve todas las polizas por el tipo de poliza dado
+    @GetMapping("/{tipoPoliza}")
+    public List<Poliza> obtenerPolizasTipo(@PathVariable("tipoPoliza") TipoPoliza tipoPoliza){
+    	return polizaRepository.findByTipoPoliza(tipoPoliza);
+    }
+    
+  
+    //Devuelve las polizas por el beneficiario dado
     @GetMapping("/b/{nombres}/{primer_apellido}/{segundo_apellido}")
     public List<Poliza> obtenerPolizasPorBeneficiario(@PathVariable("nombres") String nombres,
                                                       @PathVariable("primer_apellido") String primerApellido,
@@ -89,7 +93,7 @@ public class PolizaControlador {
         return polizaRepository.findPolizasByBeneficiario(nombres, primerApellido, segundoApellido);
     }
     
- // 8. Obtener el beneficiario de una póliza
+    //Devuelve el registro del beneficiario de la póliza solicitada de existir. En otro caso devuelve null.
     @GetMapping("/beneficiario/{fecha_nacimiento}/{clave_poliza}/{nombres}/{primer_apellido}/{segundo_apellido}")
     public Beneficiario obtenerBeneficiario(@PathVariable("fecha_nacimiento") Date fechaNacimiento,
                                             @PathVariable("clave_poliza") UUID clavePoliza,
@@ -101,4 +105,12 @@ public class PolizaControlador {
         return beneficiarioRepository.findBeneficiarioByPolizaAndDatos(poliza, nombres, primerApellido, segundoApellido, fechaNacimiento)
             .orElseThrow(() -> new ResourceNotFoundException("Beneficiario no encontrado"));
     }
+    
+    @GetMapping("/cliente/{curp}")
+    public List<Poliza> obtenerPolizasPorCurp(@PathVariable("curp") UUID curp) {
+        Cliente cliente = clienteRepository.findByCurp(curp)
+            .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
+        return polizaRepository.findByCliente(cliente);
+    }
+
 }
