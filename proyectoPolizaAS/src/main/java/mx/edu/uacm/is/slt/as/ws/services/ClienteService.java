@@ -1,5 +1,13 @@
 package mx.edu.uacm.is.slt.as.ws.services;
 
-public class ClienteService {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import mx.edu.uacm.is.slt.as.ws.repository.ClienteRepository;
+
+@Service
+public class ClienteService {
+	
+	@Autowired
+    private ClienteRepository clienteRepository;
 }
