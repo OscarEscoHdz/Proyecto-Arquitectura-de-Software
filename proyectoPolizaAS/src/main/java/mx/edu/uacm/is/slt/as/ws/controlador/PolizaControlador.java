@@ -31,6 +31,17 @@ public class PolizaControlador {
 		return "Poliza con ID: "+ id;
 	}
 	
+	
+	@GetMapping("/{curp}")
+	public String obtenerPolizaCurp(@PathVariable("curp") Long curp) {
+		return "Poliza con curp: "+ curp;
+	}
+	
+	@GetMapping("/{nombre}/{apellido_paterno}/{apellido_materno=null}")
+	public String obtenerPoliza(@PathVariable("nombre") String nombre, @PathVariable("apellido_paterno") String apellido_paterno, @PathVariable("apellido_materno") String apellido_materno ) {
+		return "Poliza con Nombre completo: "+ nombre + apellido_paterno + (apellido_materno != null && !apellido_materno.isEmpty() ? + apellido_materno: N/A  );
+	}
+	
 
 	@PutMapping("/{id}")//Se agrego metodo put
 	public String actualizarPoliza(@PathVariable("id") Long id, @RequestBody String poliza) {
