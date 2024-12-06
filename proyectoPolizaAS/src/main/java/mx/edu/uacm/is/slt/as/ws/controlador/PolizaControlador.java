@@ -11,6 +11,7 @@ import excepcion.ResourceNotFoundException;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -100,10 +101,18 @@ public class PolizaControlador {
                                             @PathVariable("nombres") String nombres,
                                             @PathVariable("primer_apellido") String primerApellido,
                                             @PathVariable("segundo_apellido") String segundoApellido) {
-        Poliza poliza = polizaRepository.findById(clavePoliza)
-            .orElseThrow(() -> new ResourceNotFoundException("Poliza no encontrada"));
-        return beneficiarioRepository.findBeneficiarioByPolizaAndDatos(poliza, nombres, primerApellido, segundoApellido, fechaNacimiento)
-            .orElseThrow(() -> new ResourceNotFoundException("Beneficiario no encontrado"));
+    	Optional<Beneficiario> beneficiario = null;
+    	
+    	if (segundoApellido != null && !segundoApellido.isEmpty()) {
+    		beneficiario = beneficiarioRepository.findByNombreAndPrimerApellidoAndFechaNacimientoAndPoliza_ClavePolizaAndSegundoApellido(nombres, primerApellido, fechaNacimiento, clavePoliza, segundoApellido);
+
+        } else {
+        	beneficiario = beneficiarioRepository.findByNombreAndPrimerApellidoAndFechaNacimientoAndPoliza_ClavePoliza(
+                    nombres, primerApellido, fechaNacimiento, clavePoliza);
+        }
+    	
+    	return beneficiario.get();
+       
     }
     
     @GetMapping("/cliente/{curp}")
