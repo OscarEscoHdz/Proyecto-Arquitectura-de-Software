@@ -2,7 +2,6 @@ package mx.edu.uacm.is.slt.as.ws.modelo;
 
 import java.sql.Date;
 import java.util.Objects;
-import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

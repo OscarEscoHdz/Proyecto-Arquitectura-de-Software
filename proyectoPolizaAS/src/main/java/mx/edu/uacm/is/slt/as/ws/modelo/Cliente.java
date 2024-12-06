@@ -2,6 +2,7 @@ package mx.edu.uacm.is.slt.as.ws.modelo;
 
 import java.sql.Date;
 import java.util.Objects;
+import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -12,10 +13,10 @@ import jakarta.persistence.Table;
 public class Cliente extends Persona{
 	private String direccion;
 	@Id
-	private String curp;
+	private UUID curp;
 	
 	public Cliente(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento, String direccion,
-			String curp) throws Exception  {
+			UUID curp) throws Exception  {
 		super(nombre, primerApellido, segundoApellido, fechaNacimiento);
 		this.direccion = direccion;
 		this.curp = curp;
@@ -23,7 +24,7 @@ public class Cliente extends Persona{
 	}
 	
 	public Cliente(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento, String direccion,
-			String curp, Poliza poliza) throws Exception {
+			UUID curp, Poliza poliza) throws Exception {
 		super(nombre, primerApellido, segundoApellido, fechaNacimiento);
 		this.direccion = direccion;
 		this.curp = curp;
@@ -38,11 +39,11 @@ public class Cliente extends Persona{
 		this.direccion = direccion;
 	}
 
-	public String getCurp() {
+	public UUID getCurp() {
 		return curp;
 	}
 
-	public void setCurp(String curp) {
+	public void setCurp(UUID curp) {
 		this.curp = curp;
 	}
 

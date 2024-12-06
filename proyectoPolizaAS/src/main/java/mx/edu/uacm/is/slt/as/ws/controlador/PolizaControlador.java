@@ -90,7 +90,7 @@ public class PolizaControlador {
     public List<Poliza> obtenerPolizasPorBeneficiario(@PathVariable("nombres") String nombres,
                                                       @PathVariable("primer_apellido") String primerApellido,
                                                       @PathVariable("segundo_apellido") String segundoApellido) {
-        return polizaRepository.findPolizasByBeneficiario(nombres, primerApellido, segundoApellido);
+        return beneficiarioRepository.findPolizasByBeneficiarios(nombres, primerApellido, segundoApellido);
     }
     
     //Devuelve el registro del beneficiario de la póliza solicitada de existir. En otro caso devuelve null.
