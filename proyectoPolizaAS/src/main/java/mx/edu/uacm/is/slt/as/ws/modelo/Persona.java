@@ -30,6 +30,21 @@ public class Persona {
 		
 		return nombre;
 	}
+	
+	//lo agrego Oscar
+	public String setNombre(String string) {
+		return nombre;
+	}
+	
+	//lo agrego Oscar
+	public String setPrimerApellido(String string){
+		return primerApellido;
+	}
+	
+	//lo agrego Oscar
+	public String setSegundoApellido(String string) {
+		return segundoApellido;
+	}
 
 
 	private void asignarNombre(String nombre) throws Exception {
@@ -79,7 +94,7 @@ public class Persona {
 	}
 
 
-	private void asignarFechaNacimiento(Date fechaNacimiento) {
+	public void asignarFechaNacimiento(Date fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 	

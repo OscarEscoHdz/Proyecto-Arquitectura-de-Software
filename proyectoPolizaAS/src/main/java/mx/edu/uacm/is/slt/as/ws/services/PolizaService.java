@@ -63,5 +63,18 @@ public class PolizaService {
 	            .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
 	        return polizaRepository.findByCliente(cliente);
 	    }
+	 
+	 
+	 public void actualizarPolizaConAtributos(UUID clave, TipoPoliza tipo, double monto, String descripcion, UUID curpCliente) {
+		    Poliza poliza = polizaRepository.findById(clave)
+		        .orElseThrow(() -> new RuntimeException("Póliza no encontrada con la clave: " + clave));
+		    
+		    poliza.setTipoPoliza(tipo);
+		    poliza.setMontoAsegurado(monto);
+		    poliza.setDescripcion(descripcion);
+		    //Falta agregar el curp_cliente
+		    polizaRepository.save(poliza);
+		}
+
 	
 }

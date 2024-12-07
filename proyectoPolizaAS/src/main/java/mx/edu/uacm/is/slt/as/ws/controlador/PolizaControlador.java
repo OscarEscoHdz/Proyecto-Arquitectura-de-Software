@@ -94,5 +94,32 @@ public class PolizaControlador {
     public List<Poliza> obtenerPolizasPorCurp(@PathVariable("curp") UUID curp) {
         return polizaService.obtenerPolizasPorCurp(curp);
     }
+    
+    //Operaciones Put
+    //Actualiza el cliente con los atributos dados.
+    @PutMapping("/cliente/{curp}/{direccion}/{fecha_nacimiento}/{nombres}/{primer_apellido}/{segundo_apellido}")
+    public String actualizarCliente(@PathVariable("curp") UUID curp,
+                                    @PathVariable("direccion") String direccion,
+                                    @PathVariable("fecha_nacimiento") Date fechaNacimiento,
+                                    @PathVariable("nombres") String nombres,
+                                    @PathVariable("primer_apellido") String primerApellido,
+                                    @PathVariable(value = "segundo_apellido", required = false) String segundoApellido) {
+        
+    	clienteService.actualizarCliente(curp, direccion, new java.sql.Date(fechaNacimiento.getTime()), nombres, primerApellido, segundoApellido);
+        return "Cliente actualizado con éxito";
+    }
+    
+    //Actualiza la poliza con los atributos dados
+    @PutMapping("/poliza/{clave}/{tipo}/{monto}/{descripcion}/{curp_cliente}")
+    public String actualizarPoliza(@PathVariable("clave") UUID clave,
+                                    @PathVariable("tipo") TipoPoliza tipo,
+                                    @PathVariable("monto") double monto,
+                                    @PathVariable("descripcion") String descripcion,
+                                    @PathVariable("curp_cliente") UUID curpCliente) {
+        polizaService.actualizarPolizaConAtributos(clave, tipo, monto, descripcion, curpCliente);
+        return "Póliza actualizada con éxito";
+    }
+
+
 
 }

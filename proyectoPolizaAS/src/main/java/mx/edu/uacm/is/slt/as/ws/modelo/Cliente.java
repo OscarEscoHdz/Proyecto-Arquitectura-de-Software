@@ -62,5 +62,7 @@ public class Cliente extends Persona{
 	    public int hashCode() {
 	    	return Objects.hash(this.curp);
 	    }
+
+		
 }
 
