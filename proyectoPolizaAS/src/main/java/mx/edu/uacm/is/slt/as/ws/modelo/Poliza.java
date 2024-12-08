@@ -1,6 +1,5 @@
 package mx.edu.uacm.is.slt.as.ws.modelo;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -10,8 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,7 +24,7 @@ public class Poliza {
 	private double montoAsegurado;
 	private String descripcion;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "curp_cliente", nullable = false)
 	private Cliente cliente;
 	
