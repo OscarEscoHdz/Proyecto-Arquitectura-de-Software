@@ -50,6 +50,9 @@ public class Beneficiario extends Persona{
 	}
 
 
+	public Beneficiario() {
+		
+	}
 
 
 	public Long getId() {
