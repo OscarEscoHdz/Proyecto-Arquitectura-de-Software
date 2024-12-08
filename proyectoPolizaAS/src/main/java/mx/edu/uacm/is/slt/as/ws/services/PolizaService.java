@@ -66,15 +66,24 @@ public class PolizaService {
 	 
 	 
 	 public void actualizarPolizaConAtributos(UUID clave, TipoPoliza tipo, double monto, String descripcion, UUID curpCliente) {
+		   
 		    Poliza poliza = polizaRepository.findById(clave)
 		        .orElseThrow(() -> new RuntimeException("Póliza no encontrada con la clave: " + clave));
+		    
+		    // Validar que el cliente con el CURP proporcionado exista
+		    Cliente cliente = clienteRepository.findById(curpCliente)
+		        .orElseThrow(() -> new RuntimeException("Cliente no encontrado con el CURP: " + curpCliente));
+		    
 		    
 		    poliza.setTipoPoliza(tipo);
 		    poliza.setMontoAsegurado(monto);
 		    poliza.setDescripcion(descripcion);
-		    //Falta agregar el curp_cliente
+		    poliza.setCliente(cliente); 
+		    
+		  
 		    polizaRepository.save(poliza);
 		}
+
 
 	
 }
