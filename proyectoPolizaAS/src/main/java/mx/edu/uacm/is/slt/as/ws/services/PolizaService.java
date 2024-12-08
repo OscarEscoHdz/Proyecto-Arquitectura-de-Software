@@ -62,6 +62,6 @@ public class PolizaService {
 	        Cliente cliente = clienteRepository.findByCurp(curp)
 	            .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
 	        return polizaRepository.findByCliente(cliente);
-	    }
+	    }//obtiene la poliza por curp
 	
 }
