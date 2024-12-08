@@ -24,6 +24,15 @@ public class Persona {
 			throw new Exception("Error: "+e);
 		}	
 	}
+	
+	
+
+
+	public Persona() {
+		super();
+	}
+
+
 
 
 	public String getNombre() {

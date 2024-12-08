@@ -55,6 +55,12 @@ public class Poliza {
 
 
 
+	public Poliza() {
+		super();
+	}
+
+
+
 	public UUID getClavePoliza() {
 		return clavePoliza;
 	}

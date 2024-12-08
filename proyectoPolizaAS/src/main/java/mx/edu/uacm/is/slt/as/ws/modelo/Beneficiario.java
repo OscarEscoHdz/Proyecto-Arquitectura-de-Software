@@ -34,6 +34,14 @@ public class Beneficiario extends Persona{
 	
 
 
+	public Beneficiario(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento)
+			throws Exception {
+		super(nombre, primerApellido, segundoApellido, fechaNacimiento);
+	}
+
+
+
+
 	public Beneficiario(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento,
 			float porcentaje, Poliza poliza) throws Exception {
 		super(nombre, primerApellido, segundoApellido, fechaNacimiento);

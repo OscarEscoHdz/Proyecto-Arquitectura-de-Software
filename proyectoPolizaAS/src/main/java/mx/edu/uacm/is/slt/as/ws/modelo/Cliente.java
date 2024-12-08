@@ -27,6 +27,19 @@ public class Cliente extends Persona{
 		
 	}
 	
+	
+	public Cliente() {
+		
+	}
+	
+	
+	
+	public Cliente(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento)
+			throws Exception {
+		super(nombre, primerApellido, segundoApellido, fechaNacimiento);
+	}
+
+
 	public Cliente(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento, String direccion,
 			String curp, Poliza poliza) throws Exception {
 		super(nombre, primerApellido, segundoApellido, fechaNacimiento);
