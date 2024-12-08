@@ -23,7 +23,7 @@ public class PolizaService {
 		this.clienteRepository = clienteRepository; 
 	}
 	
-	public Poliza crearPoliza(String curp, Poliza poliza) {
+	public Poliza crearPoliza(UUID curp, Poliza poliza) {
 		Cliente cliente = clienteRepository.findByCurp(curp).orElseThrow(()-> new ResourceNotFoundException("Cliente no encontrado"));
 		poliza.setCliente(cliente);
 		
@@ -58,10 +58,32 @@ public class PolizaService {
 		 return polizaRepository.findByTipoPoliza(tipoPoliza);
 	 }
 	 
-	 public List<Poliza> obtenerPolizasPorCurp(String curp) {
+	 public List<Poliza> obtenerPolizasPorCurp(UUID curp) {
 	        Cliente cliente = clienteRepository.findByCurp(curp)
 	            .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
 	        return polizaRepository.findByCliente(cliente);
-	    }//obtiene la poliza por curp
+	    }
+	 
+	 
+	 public void actualizarPolizaConAtributos(UUID clave, TipoPoliza tipo, double monto, String descripcion, UUID curpCliente) {
+		   
+		    Poliza poliza = polizaRepository.findById(clave)
+		        .orElseThrow(() -> new RuntimeException("Póliza no encontrada con la clave: " + clave));
+		    
+		    // Validar que el cliente con el CURP proporcionado exista
+		    Cliente cliente = clienteRepository.findById(curpCliente)
+		        .orElseThrow(() -> new RuntimeException("Cliente no encontrado con el CURP: " + curpCliente));
+		    
+		    
+		    poliza.setTipoPoliza(tipo);
+		    poliza.setMontoAsegurado(monto);
+		    poliza.setDescripcion(descripcion);
+		    poliza.setCliente(cliente); 
+		    
+		  
+		    polizaRepository.save(poliza);
+		}
+
+
 	
 }
