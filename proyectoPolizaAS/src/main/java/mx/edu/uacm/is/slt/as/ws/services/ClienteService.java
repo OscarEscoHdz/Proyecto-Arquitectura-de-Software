@@ -18,7 +18,7 @@ public class ClienteService {
     private ClienteRepository clienteRepository;
 	
 	//lo agrego Oscar
-	public void actualizarCliente(UUID curp, String direccion, Date fechaNacimiento, String nombres, String primerApellido, String segundoApellido) {
+	public void actualizarCliente(String curp, String direccion, Date fechaNacimiento, String nombres, String primerApellido, String segundoApellido) {
 	    Cliente cliente = clienteRepository.findById(curp)
 	        .orElseThrow(() -> new RuntimeException("Cliente no encontrado con el CURP: " + curp));
 	    

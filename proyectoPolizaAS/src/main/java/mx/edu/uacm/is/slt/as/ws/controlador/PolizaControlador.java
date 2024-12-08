@@ -98,7 +98,7 @@ public class PolizaControlador {
     //Operaciones Put
     //Actualiza el cliente con los atributos dados.
     @PutMapping("/cliente/{curp}/{direccion}/{fecha_nacimiento}/{nombres}/{primer_apellido}/{segundo_apellido}")
-    public String actualizarCliente(@PathVariable("curp") UUID curp,
+    public String actualizarCliente(@PathVariable("curp") String curp,
                                     @PathVariable("direccion") String direccion,
                                     @PathVariable("fecha_nacimiento") Date fechaNacimiento,
                                     @PathVariable("nombres") String nombres,
@@ -115,7 +115,7 @@ public class PolizaControlador {
                                     @PathVariable("tipo") TipoPoliza tipo,
                                     @PathVariable("monto") double monto,
                                     @PathVariable("descripcion") String descripcion,
-                                    @PathVariable("curp_cliente") UUID curpCliente) {
+                                    @PathVariable("curp_cliente") String curpCliente) {
         polizaService.actualizarPolizaConAtributos(clave, tipo, monto, descripcion, curpCliente);
         return "Póliza actualizada con éxito";
     }
