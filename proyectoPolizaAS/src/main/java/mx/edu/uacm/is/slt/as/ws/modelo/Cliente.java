@@ -13,10 +13,10 @@ import jakarta.persistence.Table;
 public class Cliente extends Persona{
 	private String direccion;
 	@Id
-	private UUID curp;
+	private String curp;
 	
 	public Cliente(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento, String direccion,
-			UUID curp) throws Exception  {
+			String curp) throws Exception  {
 		super(nombre, primerApellido, segundoApellido, fechaNacimiento);
 		this.direccion = direccion;
 		this.curp = curp;
@@ -24,7 +24,7 @@ public class Cliente extends Persona{
 	}
 	
 	public Cliente(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento, String direccion,
-			UUID curp, Poliza poliza) throws Exception {
+			String curp, Poliza poliza) throws Exception {
 		super(nombre, primerApellido, segundoApellido, fechaNacimiento);
 		this.direccion = direccion;
 		this.curp = curp;
@@ -39,11 +39,11 @@ public class Cliente extends Persona{
 		this.direccion = direccion;
 	}
 
-	public UUID getCurp() {
+	public String getCurp() {
 		return curp;
 	}
 
-	public void setCurp(UUID curp) {
+	public void setCurp(String curp) {
 		this.curp = curp;
 	}
 

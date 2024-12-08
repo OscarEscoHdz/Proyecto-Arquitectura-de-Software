@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import mx.edu.uacm.is.slt.as.ws.modelo.Cliente;
 
 @Repository
-public interface ClienteRepository extends JpaRepository<Cliente, UUID>{
-	Optional<Cliente> findByCurp(UUID curp);
+public interface ClienteRepository extends JpaRepository<Cliente, String>{
+	Optional<Cliente> findByCurp(String curp);
 }
  

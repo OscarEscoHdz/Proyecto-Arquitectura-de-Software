@@ -34,7 +34,7 @@ public class PolizaControlador {
 
     // 3. Crear una nueva póliza
     @PostMapping("/cliente/{curp}")
-    public Poliza crearPoliza(@PathVariable("curp") UUID curp, @RequestBody Poliza poliza) {
+    public Poliza crearPoliza(@PathVariable("curp") String curp, @RequestBody Poliza poliza) {
         return polizaService.crearPoliza(curp,poliza);
     }
 
@@ -91,7 +91,7 @@ public class PolizaControlador {
     }
     
     @GetMapping("/cliente/{curp}")
-    public List<Poliza> obtenerPolizasPorCurp(@PathVariable("curp") UUID curp) {
+    public List<Poliza> obtenerPolizasPorCurp(@PathVariable("curp") String curp) {
         return polizaService.obtenerPolizasPorCurp(curp);
     }
 

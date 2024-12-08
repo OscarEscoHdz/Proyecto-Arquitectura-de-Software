@@ -23,7 +23,7 @@ public class PolizaService {
 		this.clienteRepository = clienteRepository; 
 	}
 	
-	public Poliza crearPoliza(UUID curp, Poliza poliza) {
+	public Poliza crearPoliza(String curp, Poliza poliza) {
 		Cliente cliente = clienteRepository.findByCurp(curp).orElseThrow(()-> new ResourceNotFoundException("Cliente no encontrado"));
 		poliza.setCliente(cliente);
 		
@@ -58,7 +58,7 @@ public class PolizaService {
 		 return polizaRepository.findByTipoPoliza(tipoPoliza);
 	 }
 	 
-	 public List<Poliza> obtenerPolizasPorCurp(UUID curp) {
+	 public List<Poliza> obtenerPolizasPorCurp(String curp) {
 	        Cliente cliente = clienteRepository.findByCurp(curp)
 	            .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
 	        return polizaRepository.findByCliente(cliente);
