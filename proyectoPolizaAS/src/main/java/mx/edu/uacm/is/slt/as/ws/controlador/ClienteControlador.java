@@ -3,15 +3,20 @@ package mx.edu.uacm.is.slt.as.ws.controlador;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import mx.edu.uacm.is.slt.as.ws.modelo.Cliente;
+import mx.edu.uacm.is.slt.as.ws.repository.ClienteRepository;
 
 @RestController
 public class ClienteControlador {
+	
+	@Autowired
+    private ClienteRepository clienteRepository;
 	
 	@PostMapping("/{curp}/{direccion}/{fecha_nacimiento}/{nombres}/{primer_apellido}/{segundo_apellido}")
     public Cliente crearCliente(
@@ -29,7 +34,7 @@ public class ClienteControlador {
         // Crear el cliente
         Cliente cliente = new Cliente(nombres, primerApellido, segundoApellido, new java.sql.Date(fecha.getTime()), direccion, curp);
         
-        // Aquí podrías guardar el cliente en la base de datos si fuera necesario
+        cliente = clienteRepository.save(cliente);
         
         return cliente;
     }
