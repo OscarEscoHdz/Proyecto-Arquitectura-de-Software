@@ -117,10 +117,6 @@ public class PolizaControlador {
     
     //Operaciones POST
     
-    @PostMapping("/cliente/{curp}")	//post --> insertar 
-	public String crearPoliza(@RequestBody Poliza poliza ) {
-		return "Curp cliente:" + poliza;
-	}
     
     @PostMapping("/cliente/{curp}")
     public Poliza crearPoliza(@PathVariable("curp") String curp, @RequestBody Poliza poliza) {
