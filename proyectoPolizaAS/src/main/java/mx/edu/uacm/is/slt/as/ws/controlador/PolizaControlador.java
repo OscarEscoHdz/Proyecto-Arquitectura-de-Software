@@ -107,7 +107,18 @@ public class PolizaControlador {
     }
     
     
-   
+    //obtener poliza con el nombre completo del cliente**
+  	@GetMapping("/cliente/{nombre}/{apellido_paterno}/{apellido_materno}")
+  	public List<Poliza> obtenerPolizaNombreCompleto(
+  			@PathVariable("nombre") String nombre, 
+  			@PathVariable("apellido_paterno") String apellido_paterno, 
+  			@PathVariable("apellido_materno") String apellido_materno ) {
+  		
+  		
+  		return polizaService.obtenerPolizasPorNombre(nombre, apellido_paterno, apellido_materno);
+  		/*return "Poliza con Nombre completo: " + nombre + apellido_paterno + 
+  				(apellido_materno != null && !apellido_materno.isEmpty() ?  apellido_materno: "N/A"  );*/
+  	}
     
     
     @GetMapping("/b/{nombres}/{primer_apellido}/{segundo_apellido}")
