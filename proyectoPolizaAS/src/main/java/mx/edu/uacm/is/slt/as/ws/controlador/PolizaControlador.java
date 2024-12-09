@@ -118,13 +118,6 @@ public class PolizaControlador {
         return polizaService.crearPoliza(curp,poliza);
     }
     
-    
-    //Aqui van las operaciones Post (Kevin)
-    
-    
-    
-    
-    
     //Operacion DELET
     
     
