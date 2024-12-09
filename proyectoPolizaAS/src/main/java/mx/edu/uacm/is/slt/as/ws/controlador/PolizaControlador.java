@@ -32,25 +32,8 @@ public class PolizaControlador {
     }
 
 
-    // 3. Crear una nueva póliza
-    @PostMapping("/cliente/{curp}")
-    public Poliza crearPoliza(@PathVariable("curp") String curp, @RequestBody Poliza poliza) {
-        return polizaService.crearPoliza(curp,poliza);
-    }
+   
 
-    // 4. Actualizar una póliza
-    @PutMapping("/{id}")
-    public Poliza actualizarPoliza(@PathVariable("id") UUID id, @RequestBody Poliza polizaActualizada) {
-        return polizaService.actualizarPoliza(id,polizaActualizada);
-    }
-
-    // 5. Eliminar una póliza
-    @DeleteMapping("/{id}")
-    public String eliminarPoliza(@PathVariable("id") UUID id) {
-        polizaService.eliminarPoliza(id);
-        return "Poliza eliminada con éxito";
-    }
-    
     //Operaciones Get
 
     //Devuelve todas las polizas
@@ -95,7 +78,9 @@ public class PolizaControlador {
         return polizaService.obtenerPolizasPorCurp(curp);
     }
     
-    //Operaciones Put
+    
+    //Operaciones PUT
+    
     //Actualiza el cliente con los atributos dados.
     @PutMapping("/cliente/{curp}/{direccion}/{fecha_nacimiento}/{nombres}/{primer_apellido}/{segundo_apellido}")
     public String actualizarCliente(@PathVariable("curp") String curp,
@@ -119,6 +104,31 @@ public class PolizaControlador {
         polizaService.actualizarPolizaConAtributos(clave, tipo, monto, descripcion, curpCliente);
         return "Póliza actualizada con éxito";
     }
+    
+    @PutMapping("/{id}")
+    public Poliza actualizarPoliza(@PathVariable("id") UUID id, @RequestBody Poliza polizaActualizada) {
+        return polizaService.actualizarPoliza(id,polizaActualizada);
+    }
+    
+    
+    //Operaciones POST
+    
+    @PostMapping("/cliente/{curp}")
+    public Poliza crearPoliza(@PathVariable("curp") String curp, @RequestBody Poliza poliza) {
+        return polizaService.crearPoliza(curp,poliza);
+    }
+    
+    
+    //Operacion DELET
+    
+    
+    @DeleteMapping("/{id}")
+    public String eliminarPoliza(@PathVariable("id") UUID id) {
+        polizaService.eliminarPoliza(id);
+        return "Poliza eliminada con éxito";
+    }
+    
+    
 
 
 
