@@ -60,7 +60,11 @@ public class PolizaService {
 	 }
 	 
 	 
-	 
+	 public List<Poliza> obtenerPolizasPorNombre(String nombre, String apPaterno, String apMaterno) {
+		    Cliente cliente = clienteRepository.findByNombreAndApPaternoAndApMaterno(nombre, apPaterno, apMaterno)
+		        .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
+		    return polizaRepository.findByCliente(cliente);
+		}
 	 
 	 public List<Poliza> obtenerPolizasPorCurp(String curp) {
 	        Cliente cliente = clienteRepository.findByCurp(curp)
