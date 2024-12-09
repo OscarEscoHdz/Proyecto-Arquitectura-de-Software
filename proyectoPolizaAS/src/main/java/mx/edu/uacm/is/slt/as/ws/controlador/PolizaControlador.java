@@ -119,7 +119,4 @@ public class PolizaControlador {
         polizaService.actualizarPolizaConAtributos(clave, tipo, monto, descripcion, curpCliente);
         return "Póliza actualizada con éxito";
     }
-
-
-
 }
