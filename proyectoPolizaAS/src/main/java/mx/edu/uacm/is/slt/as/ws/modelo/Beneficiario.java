@@ -79,12 +79,10 @@ public class Beneficiario extends Persona{
 		return poliza;
 	}
 
-
 	public void setPoliza(Poliza poliza) {
 		this.poliza = poliza;
 	}
 
-	
 	 @Override
 	    public boolean equals(Object o) {
 	        if (super.equals(o)) {
