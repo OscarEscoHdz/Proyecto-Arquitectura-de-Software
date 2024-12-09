@@ -16,6 +16,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/polizas")
 public class PolizaControlador {
+	
 
 	@Autowired
 	private final PolizaService polizaService;
@@ -32,8 +33,10 @@ public class PolizaControlador {
     }
 
 
-   
 
+
+
+   
     //Operaciones Get
 
     //Devuelve todas las polizas
@@ -41,15 +44,21 @@ public class PolizaControlador {
     public List<Poliza> obtenerTodasLasPolizas() {
         return polizaService.obtenerTodasLasPolizas();
     }
+    
+    @GetMapping("/{id}")
+	public String obtenerPoliza(@PathVariable("id") Long id) {
+		return "Poliza con ID: "+ id;
+	}
+	
 
     //Devuelve la poliza con la clave dada
-    @GetMapping("/{id}")
-    public Poliza obtenerPoliza(@PathVariable("id") UUID id) {
+    @GetMapping("/clave/{UUID}")
+    public Poliza obtenerPoliza(@PathVariable("UUID") UUID id) {
        return polizaService.obtenerPoliza(id);
     }
     
     //Devuelve todas las polizas por el tipo de poliza dado
-    @GetMapping("/{tipoPoliza}")
+    @GetMapping("/tipo/{tipoPoliza}")
     public List<Poliza> obtenerPolizasTipo(@PathVariable("tipoPoliza") TipoPoliza tipoPoliza){
     	return polizaService.obtenerPolizasTipo(tipoPoliza);
     }
@@ -78,8 +87,7 @@ public class PolizaControlador {
         return polizaService.obtenerPolizasPorCurp(curp);
     }
     
-    
-    //Operaciones PUT
+    //Operaciones Put
     
     //Actualiza el cliente con los atributos dados.
     @PutMapping("/cliente/{curp}/{direccion}/{fecha_nacimiento}/{nombres}/{primer_apellido}/{segundo_apellido}")
@@ -105,13 +113,14 @@ public class PolizaControlador {
         return "Póliza actualizada con éxito";
     }
     
-    @PutMapping("/{id}")
-    public Poliza actualizarPoliza(@PathVariable("id") UUID id, @RequestBody Poliza polizaActualizada) {
-        return polizaService.actualizarPoliza(id,polizaActualizada);
-    }
-    
+
     
     //Operaciones POST
+    
+    @PostMapping("/cliente/{curp}")	//post --> insertar 
+	public String crearPoliza(@RequestBody Poliza poliza ) {
+		return "Curp cliente:" + poliza;
+	}
     
     @PostMapping("/cliente/{curp}")
     public Poliza crearPoliza(@PathVariable("curp") String curp, @RequestBody Poliza poliza) {
@@ -119,16 +128,9 @@ public class PolizaControlador {
     }
     
     //Operacion DELET
-    
-    
     @DeleteMapping("/{id}")
-    public String eliminarPoliza(@PathVariable("id") UUID id) {
-        polizaService.eliminarPoliza(id);
-        return "Poliza eliminada con éxito";
+    public String eliminarPoliza(@PathVariable("id")UUID id) {
+    	polizaService.eliminarPoliza(id);
+    	return "Poliza eliminada con exito";
     }
-    
-    
-
-
-
 }
