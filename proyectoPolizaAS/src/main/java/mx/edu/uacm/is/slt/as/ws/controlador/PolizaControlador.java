@@ -43,13 +43,13 @@ public class PolizaControlador {
     }
 
     //Devuelve la poliza con la clave dada
-    @GetMapping("/{id}")
-    public Poliza obtenerPoliza(@PathVariable("id") UUID id) {
+    @GetMapping("/clave/{UUID}")
+    public Poliza obtenerPoliza(@PathVariable("UUID") UUID id) {
        return polizaService.obtenerPoliza(id);
     }
     
     //Devuelve todas las polizas por el tipo de poliza dado
-    @GetMapping("/{tipoPoliza}")
+    @GetMapping("/tipo/{tipoPoliza}")
     public List<Poliza> obtenerPolizasTipo(@PathVariable("tipoPoliza") TipoPoliza tipoPoliza){
     	return polizaService.obtenerPolizasTipo(tipoPoliza);
     }
