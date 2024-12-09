@@ -20,7 +20,7 @@ import mx.edu.uacm.is.slt.as.ws.repository.PolizaRepository;
 
 @RestController
 public class BeneficiarioControlador {
-	@Autowired
+    @Autowired
     private BeneficiarioRepository beneficiarioRepository;
 
     @Autowired
@@ -33,7 +33,7 @@ public class BeneficiarioControlador {
             @PathVariable("porcentaje") Double porcentaje,
             @PathVariable("nombres") String nombres,
             @PathVariable("primer_apellido") String primerApellido,
-            @PathVariable("segundo_apellido") String segundoApellido) {
+            @PathVariable(value = "segundo_apellido", required = false) String segundoApellido) {
 
         try {
             // Formato esperado para la fecha
@@ -43,21 +43,20 @@ public class BeneficiarioControlador {
             // Convertir de java.util.Date a java.sql.Date
             java.sql.Date sqlFechaNacimiento = new java.sql.Date(fechaNacimiento.getTime());
 
-            // Buscar la póliza asociada a la clave
-            Optional<Poliza> polizaOpt = polizaRepository.findById(clavePoliza);
-            if (polizaOpt.isEmpty()) {
-                throw new RuntimeException("Poliza no encontrada");
+            // Verificar si la póliza existe
+            if (!polizaRepository.existsById(clavePoliza)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(null); // Poliza no encontrada
             }
-
-            Poliza poliza = polizaOpt.get();
 
             // Verificar si ya existe un beneficiario con los mismos datos
             Optional<Beneficiario> beneficiarioExistente = beneficiarioRepository
-                    .findByNombreAndPrimerApellidoAndFechaNacimientoAndPoliza_ClavePolizaAndSegundoApellido(
+                    .findByNombreAndPrimerApellidoAndFechaNacimientoAndPolizaAndSegundoApellido(
                             nombres, primerApellido, sqlFechaNacimiento, clavePoliza, segundoApellido);
 
             if (beneficiarioExistente.isPresent()) {
-                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST); // Beneficiario ya existe
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(null); // Beneficiario ya existe
             }
 
             // Crear un nuevo beneficiario
@@ -65,8 +64,8 @@ public class BeneficiarioControlador {
             beneficiario.setNombre(nombres);
             beneficiario.setPrimerApellido(primerApellido);
             beneficiario.setSegundoApellido(segundoApellido);
-            beneficiario.setFechaNacimiento(sqlFechaNacimiento);  // Usar java.sql.Date
-            beneficiario.setPoliza(poliza);
+            beneficiario.setFechaNacimiento(sqlFechaNacimiento); // Usar java.sql.Date
+            beneficiario.setPoliza(clavePoliza); // Ajustar para usar el UUID directamente
             beneficiario.setPorcentaje(porcentaje.floatValue()); // Convertir de Double a float
 
             // Guardar el beneficiario en la base de datos
@@ -75,11 +74,12 @@ public class BeneficiarioControlador {
             return new ResponseEntity<>(nuevoBeneficiario, HttpStatus.CREATED); // Retornar el beneficiario creado
 
         } catch (ParseException e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST); // Error de formato de fecha
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(null); // Error de formato de fecha
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); // Manejar cualquier otro error
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null); // Manejar cualquier otro error
         }
     }
 
-	
 }

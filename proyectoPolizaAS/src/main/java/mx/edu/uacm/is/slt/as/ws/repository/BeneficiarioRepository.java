@@ -15,11 +15,11 @@ import mx.edu.uacm.is.slt.as.ws.modelo.Poliza;
 
 @Repository
 public interface BeneficiarioRepository extends JpaRepository<Beneficiario, Long>{
-	Optional<Beneficiario> findByNombreAndPrimerApellidoAndFechaNacimientoAndPoliza_ClavePolizaAndSegundoApellido(
-            String nombre, String primerApellido, Date fechaNacimiento, UUID clavePoliza, String segundoApellido);
+	Optional<Beneficiario> findByNombreAndPrimerApellidoAndFechaNacimientoAndPolizaAndSegundoApellido(
+            String nombre, String primerApellido, Date fechaNacimiento, UUID poliza, String segundoApellido);
 
-    Optional<Beneficiario> findByNombreAndPrimerApellidoAndFechaNacimientoAndPoliza_ClavePoliza(
-            String nombre, String primerApellido, Date fechaNacimiento, UUID clavePoliza);
+    Optional<Beneficiario> findByNombreAndPrimerApellidoAndFechaNacimientoAndPoliza(
+            String nombre, String primerApellido, Date fechaNacimiento, UUID poliza);
 	
 	@Query("SELECT p FROM Poliza p JOIN p.beneficiarios b WHERE b.nombre = :nombre AND b.primerApellido = :primerApellido AND b.segundoApellido = :segundoApellido")
     List<Poliza> findPolizasByBeneficiarios(
