@@ -12,6 +12,7 @@ import mx.edu.uacm.is.slt.as.ws.modelo.Cliente;
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, String>{
 	Optional<Cliente> findByCurp(String curp);
-	
+	Optional<Cliente> findByNombreAndApPaternoAndApMaterno(String nombre, String apPaterno, String apMaterno);
+
 }
  
