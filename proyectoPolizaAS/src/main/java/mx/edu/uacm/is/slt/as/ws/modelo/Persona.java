@@ -24,11 +24,35 @@ public class Persona {
 			throw new Exception("Error: "+e);
 		}	
 	}
+	
+	
+
+
+	public Persona() {
+		super();
+	}
+
+
 
 
 	public String getNombre() {
 		
 		return nombre;
+	}
+	
+	//lo agrego Oscar
+	public String setNombre(String string) {
+		return nombre;
+	}
+	
+	//lo agrego Oscar
+	public String setPrimerApellido(String string){
+		return primerApellido;
+	}
+	
+	//lo agrego Oscar
+	public String setSegundoApellido(String string) {
+		return segundoApellido;
 	}
 
 
@@ -79,7 +103,7 @@ public class Persona {
 	}
 
 
-	private void asignarFechaNacimiento(Date fechaNacimiento) {
+	public void asignarFechaNacimiento(Date fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 	
