@@ -41,7 +41,7 @@ public class BeneficiarioControlador {
             Date fechaNacimiento = dateFormat.parse(fechaNacimientoStr);
 
             // Convertir de java.util.Date a java.sql.Date
-            java.sql.Date sqlFechaNacimiento = new java.sql.Date(fechaNacimiento.getTime());
+            java.util.Date sqlFechaNacimiento = new java.sql.Date(fechaNacimiento.getTime());
 
             // Verificar si la póliza existe
             if (!polizaRepository.existsById(clavePoliza)) {
