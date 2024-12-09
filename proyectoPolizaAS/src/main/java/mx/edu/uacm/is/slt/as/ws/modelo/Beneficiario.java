@@ -2,7 +2,6 @@ package mx.edu.uacm.is.slt.as.ws.modelo;
 
 import java.sql.Date;
 import java.util.Objects;
-import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -30,6 +29,29 @@ public class Beneficiario extends Persona{
 		this.id = id;
 		this.porcentaje = porcentaje;
 		this.poliza = poliza;
+	}
+	
+	
+
+
+	public Beneficiario(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento)
+			throws Exception {
+		super(nombre, primerApellido, segundoApellido, fechaNacimiento);
+	}
+
+
+
+
+	public Beneficiario(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento,
+			float porcentaje, Poliza poliza) throws Exception {
+		super(nombre, primerApellido, segundoApellido, fechaNacimiento);
+		this.porcentaje = porcentaje;
+		this.poliza = poliza;
+	}
+
+
+	public Beneficiario() {
+		
 	}
 
 

@@ -1,10 +1,12 @@
 package mx.edu.uacm.is.slt.as.ws.modelo;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Objects;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -14,6 +16,9 @@ public class Cliente extends Persona{
 	@Id
 	private String curp;
 	
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+	private List<Poliza> polizas;
+	
 	public Cliente(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento, String direccion,
 			String curp) throws Exception  {
 		super(nombre, primerApellido, segundoApellido, fechaNacimiento);
@@ -22,6 +27,19 @@ public class Cliente extends Persona{
 		
 	}
 	
+	
+	public Cliente() {
+		
+	}
+	
+	
+	
+	public Cliente(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento)
+			throws Exception {
+		super(nombre, primerApellido, segundoApellido, fechaNacimiento);
+	}
+
+
 	public Cliente(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento, String direccion,
 			String curp, Poliza poliza) throws Exception {
 		super(nombre, primerApellido, segundoApellido, fechaNacimiento);
@@ -61,5 +79,7 @@ public class Cliente extends Persona{
 	    public int hashCode() {
 	    	return Objects.hash(this.curp);
 	    }
+
+		
 }
 
