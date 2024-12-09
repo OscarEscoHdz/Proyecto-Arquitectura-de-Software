@@ -107,4 +107,9 @@ public class Persona {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 	
+	//agregar metodo para resolver el problema de fecha de nacimiento Kevin
+	public void setFechaNacimiento(Date fechaNacimiento) {
+	    this.fechaNacimiento = fechaNacimiento;
+	}
+	
 }
