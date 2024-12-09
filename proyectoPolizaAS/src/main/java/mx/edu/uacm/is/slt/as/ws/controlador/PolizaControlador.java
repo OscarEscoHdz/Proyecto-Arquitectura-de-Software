@@ -119,6 +119,16 @@ public class PolizaControlador {
   		/*return "Poliza con Nombre completo: " + nombre + apellido_paterno + 
   				(apellido_materno != null && !apellido_materno.isEmpty() ?  apellido_materno: "N/A"  );*/
   	}
+  	
+  	
+	//obtener poliza por fecha de nacimiento del cliente**
+    @GetMapping("/cliente/{fecha_nacimiento}")
+	public List<Poliza> obtenerPolizasBeneficiariosFechaNacimeinto(
+			@PathVariable("fecha_nacimiento") Date fecha_nacimiento) {
+    	
+    	return polizaService.obtenerPolizasPorFechaDeNacimiento(fecha_nacimiento);
+		/*return "Polizas beneficiarios con fecha de nacimineto: " + Polizas;*/
+	}
     
     
     @GetMapping("/b/{nombres}/{primer_apellido}/{segundo_apellido}")
