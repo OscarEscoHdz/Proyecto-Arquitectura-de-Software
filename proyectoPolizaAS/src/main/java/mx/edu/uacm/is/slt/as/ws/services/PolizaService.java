@@ -60,6 +60,12 @@ public class PolizaService {
 	 }
 	 
 	 
+	 public List<Poliza> obtenerPolizasPorFechaDeNacimiento(Date fechaNacimineto) {
+	        Cliente cliente = clienteRepository.findByFechaNacimiento(fechaNacimineto)
+	            .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
+	        return polizaRepository.findByCliente(cliente);
+	    }
+	 
 	 public List<Poliza> obtenerPolizasPorNombre(String nombre, String apPaterno, String apMaterno) {
 		    Cliente cliente = clienteRepository.findByNombreAndApPaternoAndApMaterno(nombre, apPaterno, apMaterno)
 		        .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
