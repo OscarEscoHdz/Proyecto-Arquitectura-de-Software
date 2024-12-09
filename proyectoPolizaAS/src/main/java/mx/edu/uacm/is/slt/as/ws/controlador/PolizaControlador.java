@@ -1,8 +1,11 @@
 package mx.edu.uacm.is.slt.as.ws.controlador;
 
 import mx.edu.uacm.is.slt.as.ws.modelo.Beneficiario;
+import mx.edu.uacm.is.slt.as.ws.modelo.Cliente;
 import mx.edu.uacm.is.slt.as.ws.modelo.Poliza;
 import mx.edu.uacm.is.slt.as.ws.modelo.TipoPoliza;
+import mx.edu.uacm.is.slt.as.ws.repository.ClienteRepository;
+import mx.edu.uacm.is.slt.as.ws.repository.PolizaRepository;
 import mx.edu.uacm.is.slt.as.ws.services.BeneficiarioService;
 import mx.edu.uacm.is.slt.as.ws.services.ClienteService;
 import mx.edu.uacm.is.slt.as.ws.services.PolizaService;
@@ -24,6 +27,10 @@ public class PolizaControlador {
 	private final BeneficiarioService beneficiarioService;
 	@Autowired
 	private final ClienteService clienteService;
+	@Autowired
+	private PolizaRepository polizaRepository;
+	@Autowired
+	private ClienteRepository clienteRepository;
 
     // Constructor para inyección de dependencias (services)
     public PolizaControlador(PolizaService polizaService, ClienteService clienteService, BeneficiarioService beneficiarioService) {
@@ -31,13 +38,45 @@ public class PolizaControlador {
         this.clienteService = clienteService;
         this.beneficiarioService = beneficiarioService;
     }
+    
+    @PostMapping("/poliza/{clave}/{tipo}/{monto}/{descripcion}/{curp_cliente}")
+    public Poliza registrarPoliza(
+            @PathVariable("clave") UUID clave,
+            @PathVariable("tipo") String tipo,
+            @PathVariable("monto") Double monto,
+            @PathVariable("descripcion") String descripcion,
+            @PathVariable("curp_cliente") String curpCliente) {
 
+        // Buscar el cliente asociado al CURP
+        Cliente cliente = clienteRepository.findById(curpCliente)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado con CURP: " + curpCliente));
 
+        // Verificar si ya existe una póliza con la misma clave
+        if (polizaRepository.existsById(clave)) {
+            throw new RuntimeException("Ya existe una póliza con la clave: " + clave);
+        }
 
+        // Validar el tipo de póliza
+        TipoPoliza tipoPoliza;
+        try {
+            tipoPoliza = TipoPoliza.valueOf(tipo.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Tipo de póliza inválido: " + tipo);
+        }
 
+        // Crear la nueva póliza
+        Poliza nuevaPoliza = new Poliza();
+        
+        nuevaPoliza.setClavePoliza(clave);
+        nuevaPoliza.setTipoPoliza(tipoPoliza);
+        nuevaPoliza.setMontoAsegurado(monto);
+        nuevaPoliza.setDescripcion(descripcion);
+        nuevaPoliza.setCliente(cliente);
 
-   
-    //Operaciones Get
+        // Guardar la póliza en la base de datos
+        return polizaRepository.save(nuevaPoliza);
+    }
+
 
     //Devuelve todas las polizas
     @GetMapping("/")
@@ -50,7 +89,6 @@ public class PolizaControlador {
 		return "Poliza con ID: "+ id;
 	}
 	
-
     //Devuelve la poliza con la clave dada
     @GetMapping("/clave/{UUID}")
     public Poliza obtenerPoliza(@PathVariable("UUID") UUID id) {
@@ -87,8 +125,6 @@ public class PolizaControlador {
         return polizaService.obtenerPolizasPorCurp(curp);
     }
     
-    //Operaciones Put
-    
     //Actualiza el cliente con los atributos dados.
     @PutMapping("/cliente/{curp}/{direccion}/{fecha_nacimiento}/{nombres}/{primer_apellido}/{segundo_apellido}")
     public String actualizarCliente(@PathVariable("curp") String curp,
@@ -112,15 +148,6 @@ public class PolizaControlador {
         polizaService.actualizarPolizaConAtributos(clave, tipo, monto, descripcion, curpCliente);
         return "Póliza actualizada con éxito";
     }
-    
-
-    
-    //Operaciones POST
-    
-    @PostMapping("/cliente/{curp}")	//post --> insertar 
-	public String crearPoliza(@RequestBody Poliza poliza ) {
-		return "Curp cliente:" + poliza;
-	}
     
     @PostMapping("/cliente/{curp}")
     public Poliza crearPoliza(@PathVariable("curp") String curp, @RequestBody Poliza poliza) {

@@ -17,5 +17,4 @@ public interface PolizaRepository extends JpaRepository<Poliza, UUID>{
 	  Poliza findByClavePoliza(UUID clavePoliza);
 	List<Poliza>findByTipoPoliza(TipoPoliza tipoPoliza);
 	//Comentario de prueba
-
 }

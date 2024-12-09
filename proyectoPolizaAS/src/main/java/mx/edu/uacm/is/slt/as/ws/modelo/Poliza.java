@@ -104,14 +104,13 @@ public class Poliza {
 		
 	}
 
-
-
 	public void setTipoPoliza(TipoPoliza tipoSeguro) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
 
-
+	public void setClavePoliza(UUID clavePoliza) {
+	    this.clavePoliza = clavePoliza;
+	}
 
 	public void setMontoAsegurado(double montoAsegurado2) {
 		// TODO Auto-generated method stub
