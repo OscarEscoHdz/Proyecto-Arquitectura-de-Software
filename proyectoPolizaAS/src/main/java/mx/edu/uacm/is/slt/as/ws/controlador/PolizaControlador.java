@@ -131,7 +131,7 @@ public class PolizaControlador {
 		/*return "Polizas beneficiarios con fecha de nacimineto: " + Polizas;*/
 	}
     
-    
+    //Devuelve todas las pólizas de las que son beneficiarias las persona con la fecha de nacimiento dada. 
     @GetMapping("/b/{fecha_nacimiento}")
     public List<Poliza> obtenerPolizasPorBeneficiarioConFecha(@PathVariable("fecha_nacimiento") Date fechaNacimiento) {
         return beneficiarioService.obtenerPolizasPorBeneficiarioConFecha(fechaNacimiento);
