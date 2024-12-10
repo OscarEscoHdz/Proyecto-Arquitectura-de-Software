@@ -31,7 +31,7 @@ public class ClienteControlador {
         Date fecha = dateFormat.parse(fechaNacimiento);
 
         // Crear el cliente
-        Cliente cliente = new Cliente(nombres, primerApellido, segundoApellido, new java.sql.Date(fecha.getTime()), direccion, curp);
+        Cliente cliente = new Cliente(nombres, primerApellido, segundoApellido, new java.util.Date(fecha.getTime()), direccion, curp);
         
         cliente = clienteRepository.save(cliente);
         

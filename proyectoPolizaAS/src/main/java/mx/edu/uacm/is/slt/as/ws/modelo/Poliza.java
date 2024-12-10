@@ -97,31 +97,26 @@ public class Poliza {
     	return Objects.hash(this.clavePoliza);
     }
 
-
-
-	public void setCliente(Cliente cliente2) {
-		// TODO Auto-generated method stub
-		
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
-	public void setTipoPoliza(TipoPoliza tipoSeguro) {
-		// TODO Auto-generated method stub		
+	public void setTipoPoliza(TipoPoliza tipoPoliza) {
+		this.tipoPoliza = tipoPoliza;
 	}
 
 	public void setClavePoliza(UUID clavePoliza) {
 	    this.clavePoliza = clavePoliza;
 	}
 
-	public void setMontoAsegurado(double montoAsegurado2) {
-		// TODO Auto-generated method stub
-		
+	public void setMontoAsegurado(double montoAsegurado) {
+		this.montoAsegurado = montoAsegurado;
 	}
 
 
 
-	public void setDescripcion(String descripcion2) {
-		// TODO Auto-generated method stub
-		
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
     
 }

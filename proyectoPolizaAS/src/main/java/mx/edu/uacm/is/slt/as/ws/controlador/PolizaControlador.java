@@ -1,7 +1,6 @@
 package mx.edu.uacm.is.slt.as.ws.controlador;
 
 import mx.edu.uacm.is.slt.as.ws.modelo.Beneficiario;
-import mx.edu.uacm.is.slt.as.ws.modelo.Cliente;
 import mx.edu.uacm.is.slt.as.ws.modelo.Poliza;
 import mx.edu.uacm.is.slt.as.ws.modelo.TipoPoliza;
 import mx.edu.uacm.is.slt.as.ws.repository.ClienteRepository;
@@ -20,7 +19,6 @@ import java.util.UUID;
 @RequestMapping("/api/polizas")
 public class PolizaControlador {
 	
-
 	@Autowired
 	private final PolizaService polizaService;
 	@Autowired
@@ -47,10 +45,6 @@ public class PolizaControlador {
             @PathVariable("descripcion") String descripcion,
             @PathVariable("curp_cliente") String curpCliente) {
 
-        // Buscar el cliente asociado al CURP
-        Cliente cliente = clienteRepository.findById(curpCliente)
-                .orElseThrow(() -> new RuntimeException("Cliente no encontrado con CURP: " + curpCliente));
-
         // Verificar si ya existe una póliza con la misma clave
         if (polizaRepository.existsById(clave)) {
             throw new RuntimeException("Ya existe una póliza con la clave: " + clave);
@@ -71,12 +65,12 @@ public class PolizaControlador {
         nuevaPoliza.setTipoPoliza(tipoPoliza);
         nuevaPoliza.setMontoAsegurado(monto);
         nuevaPoliza.setDescripcion(descripcion);
-        nuevaPoliza.setCliente(cliente);
+        nuevaPoliza.setCliente(clienteRepository.findById(curpCliente).orElseThrow(
+        	    () -> new RuntimeException("Cliente no encontrado con CURP: " + curpCliente)));
 
         // Guardar la póliza en la base de datos
         return polizaRepository.save(nuevaPoliza);
     }
-
 
     //Devuelve todas las polizas
     @GetMapping("/")
