@@ -31,11 +31,6 @@ public class PolizaControlador {
         this.clienteService = clienteService;
         this.beneficiarioService = beneficiarioService;
     }
-
-
-
-
-
    
     //Operaciones Get
 
