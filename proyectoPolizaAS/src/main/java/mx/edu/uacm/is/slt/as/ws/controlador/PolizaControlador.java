@@ -7,6 +7,7 @@ import mx.edu.uacm.is.slt.as.ws.services.BeneficiarioService;
 import mx.edu.uacm.is.slt.as.ws.services.ClienteService;
 import mx.edu.uacm.is.slt.as.ws.services.PolizaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -131,6 +132,15 @@ public class PolizaControlador {
 	}
     
     
+    @GetMapping("/polizas/b/{fecha_nacimiento}")
+    public List<Poliza> obtenerPolizasPorFechaNacimiento(@PathVariable("fecha_nacimiento") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaNacimiento) {
+        return polizaService.obtenerPolizasPorFechaNacimiento(fechaNacimiento);
+    }
+
+    
+    
+    
+    //obtener polizas por beneficiario por nombre completo** 
     @GetMapping("/b/{nombres}/{primer_apellido}/{segundo_apellido}")
     public List<Poliza> obtenerPolizasPorBeneficiario(@PathVariable("nombres") String nombres,
                                                       @PathVariable("primer_apellido") String primerApellido,
