@@ -37,6 +37,8 @@ public class Beneficiario extends Persona{
 	public Beneficiario(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento)
 			throws Exception {
 		super(nombre, primerApellido, segundoApellido, fechaNacimiento);
+		this.porcentaje = porcentaje;
+		this.poliza = poliza;
 	}
 
 
