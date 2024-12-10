@@ -37,4 +37,10 @@ public class BeneficiarioService {
 		
 		return beneficiario.get();
 	}
+
+
+	public List<Poliza> obtenerPolizasPorBeneficiarioConFecha(Date fechaNacimiento) {
+		
+		return beneficiarioRepository.findPolizasByBeneficiariosConFecha(fechaNacimiento);
+	}
 }

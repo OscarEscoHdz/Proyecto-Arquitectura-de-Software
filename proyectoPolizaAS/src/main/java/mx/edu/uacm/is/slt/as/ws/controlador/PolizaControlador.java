@@ -132,12 +132,10 @@ public class PolizaControlador {
 	}
     
     
-    @GetMapping("/polizas/b/{fecha_nacimiento}")
-    public List<Poliza> obtenerPolizasPorFechaNacimiento(@PathVariable("fecha_nacimiento") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaNacimiento) {
-        return polizaService.obtenerPolizasPorFechaNacimiento(fechaNacimiento);
+    @GetMapping("/b/{fecha_nacimiento}")
+    public List<Poliza> obtenerPolizasPorBeneficiarioConFecha(@PathVariable("fecha_nacimiento") Date fechaNacimiento) {
+        return beneficiarioService.obtenerPolizasPorBeneficiarioConFecha(fechaNacimiento);
     }
-
-    
     
     
     //obtener polizas por beneficiario por nombre completo** 
