@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 @RestController
 @RequestMapping("/api/poliza") // Agregar /api al inicio de la ruta
@@ -52,7 +53,9 @@ public class PolizaControlador {
         System.out.println("Descripción: " + descripcion);
         System.out.println("CURP Cliente: " + curpCliente);
 
-        if (polizaRepository.existsById(clave)) {
+     // Verificar si ya existe una póliza con la misma clave
+        Optional<Poliza> existente = polizaRepository.findById(clave);
+        if (existente.isPresent()) {
             throw new RuntimeException("Ya existe una póliza con la clave: " + clave);
         }
 
