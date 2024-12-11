@@ -1,6 +1,6 @@
 package mx.edu.uacm.is.slt.as.ws.modelo;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,19 +40,16 @@ public class Persona {
 		return nombre;
 	}
 	
-	//lo agrego Oscar
-	public String setNombre(String string) {
-		return nombre;
+	public void setNombre(String string) {
+		this.nombre = nombre;
 	}
 	
-	//lo agrego Oscar
-	public String setPrimerApellido(String string){
-		return primerApellido;
+	public void setPrimerApellido(String string){
+		this.primerApellido = primerApellido;
 	}
 	
-	//lo agrego Oscar
-	public String setSegundoApellido(String string) {
-		return segundoApellido;
+	public void setSegundoApellido(String string) {
+		this.segundoApellido = segundoApellido;
 	}
 
 

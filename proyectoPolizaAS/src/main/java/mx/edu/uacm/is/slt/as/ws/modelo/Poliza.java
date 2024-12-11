@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -20,6 +22,7 @@ public class Poliza {
 	@Id
 	@GeneratedValue
 	private UUID clavePoliza;
+	@Enumerated(EnumType.ORDINAL)
 	private TipoPoliza tipoPoliza;
 	private double montoAsegurado;
 	private String descripcion;
@@ -40,8 +43,6 @@ public class Poliza {
 		this.cliente = cliente;
 	}
 	
-	
-
 	public Poliza(UUID clavePoliza, TipoPoliza tipoPoliza, double montoAsegurado, String descripcion, Cliente cliente,
 			List<Beneficiario> beneficiarios) {
 		super();
@@ -53,13 +54,9 @@ public class Poliza {
 		this.beneficiarios = beneficiarios;
 	}
 
-
-
 	public Poliza() {
 		super();
 	}
-
-
 
 	public UUID getClavePoliza() {
 		return clavePoliza;
@@ -97,32 +94,26 @@ public class Poliza {
     	return Objects.hash(this.clavePoliza);
     }
 
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
 
+	public void setTipoPoliza(TipoPoliza tipoPoliza) {
+		this.tipoPoliza = tipoPoliza;
+	}
 
-	public void setCliente(Cliente cliente2) {
-		// TODO Auto-generated method stub
-		
+	public void setClavePoliza(UUID clavePoliza) {
+	    this.clavePoliza = clavePoliza;
+	}
+
+	public void setMontoAsegurado(double montoAsegurado) {
+		this.montoAsegurado = montoAsegurado;
 	}
 
 
 
-	public void setTipoPoliza(TipoPoliza tipoSeguro) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-	public void setMontoAsegurado(double montoAsegurado2) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-	public void setDescripcion(String descripcion2) {
-		// TODO Auto-generated method stub
-		
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
     
 }
