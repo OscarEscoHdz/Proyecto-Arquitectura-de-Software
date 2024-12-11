@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -20,6 +22,7 @@ public class Poliza {
 	@Id
 	@GeneratedValue
 	private UUID clavePoliza;
+	@Enumerated(EnumType.ORDINAL)
 	private TipoPoliza tipoPoliza;
 	private double montoAsegurado;
 	private String descripcion;

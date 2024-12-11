@@ -41,15 +41,14 @@ public class PolizaControlador {
     @PostMapping("/poliza/{clave}/{tipo}/{monto}/{descripcion}/{curp_cliente}")
     public Poliza registrarPoliza(
             @PathVariable("clave") UUID clave,
-            @PathVariable("tipo") String tipo,
+            @PathVariable("tipo") int tipo, // Cambiar a int para aceptar el ordinal
             @PathVariable("monto") Double monto,
             @PathVariable("descripcion") String descripcion,
             @PathVariable("curp_cliente") String curpCliente) {
-    	
-    	 // Prueba de depuración con mensajes de parámetros recibidos
+
         System.out.println("Iniciando registro de póliza con los siguientes datos:");
         System.out.println("Clave: " + clave);
-        System.out.println("Tipo: " + tipo);
+        System.out.println("Tipo (ordinal): " + tipo);
         System.out.println("Monto: " + monto);
         System.out.println("Descripción: " + descripcion);
         System.out.println("CURP Cliente: " + curpCliente);
@@ -58,16 +57,16 @@ public class PolizaControlador {
         if (polizaRepository.existsById(clave)) {
             throw new RuntimeException("Ya existe una póliza con la clave: " + clave);
         }
-        
+
         System.out.println("No existe una póliza con la clave proporcionada.");
 
-        // Validar el tipo de póliza
+        // Validar el ordinal del tipo de póliza
         TipoPoliza tipoPoliza;
         try {
-            tipoPoliza = TipoPoliza.valueOf(tipo.toUpperCase());
+            tipoPoliza = TipoPoliza.values()[tipo]; // Convertir ordinal a Enum
             System.out.println("Tipo de póliza validado correctamente: " + tipoPoliza);
-        } catch (IllegalArgumentException e) {
-        	System.out.println("Error: Tipo de póliza inválido: " + tipo);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Error: Tipo de póliza inválido: " + tipo);
             throw new RuntimeException("Tipo de póliza inválido: " + tipo);
         }
 
@@ -76,12 +75,12 @@ public class PolizaControlador {
         Cliente cliente = clienteRepository.findById(curpCliente).orElseThrow(
                 () -> new RuntimeException("Cliente no encontrado con CURP: " + curpCliente));
         System.out.println("Cliente encontrado: " + cliente);
-        
+
         // Crear y guardar la póliza usando el constructor
         System.out.println("Creando nueva póliza...");
         Poliza nuevaPoliza = new Poliza(clave, tipoPoliza, monto, descripcion, cliente);
         System.out.println("Póliza creada: " + nuevaPoliza);
-        
+
         return polizaRepository.save(nuevaPoliza);
     }
 
