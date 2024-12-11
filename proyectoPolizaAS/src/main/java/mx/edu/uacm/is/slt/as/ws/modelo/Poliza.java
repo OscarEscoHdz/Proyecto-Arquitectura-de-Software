@@ -40,8 +40,6 @@ public class Poliza {
 		this.cliente = cliente;
 	}
 	
-	
-
 	public Poliza(UUID clavePoliza, TipoPoliza tipoPoliza, double montoAsegurado, String descripcion, Cliente cliente,
 			List<Beneficiario> beneficiarios) {
 		super();
@@ -53,13 +51,9 @@ public class Poliza {
 		this.beneficiarios = beneficiarios;
 	}
 
-
-
 	public Poliza() {
 		super();
 	}
-
-
 
 	public UUID getClavePoliza() {
 		return clavePoliza;

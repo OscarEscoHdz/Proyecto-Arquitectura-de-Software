@@ -25,13 +25,17 @@ public class ClienteControlador {
             @PathVariable("nombres") String nombres,
             @PathVariable("primer_apellido") String primerApellido,
             @PathVariable("segundo_apellido") String segundoApellido) throws Exception {
-
-        // Formato esperado para la fecha
+		
+		System.out.println("Se mete a esta clase");
+		
+        
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date fecha = dateFormat.parse(fechaNacimiento);
-
+        	
+        System.out.println("Tipo Recibido");
+        
         // Crear el cliente
-        Cliente cliente = new Cliente(nombres, primerApellido, segundoApellido, new java.util.Date(fecha.getTime()), direccion, curp);
+        Cliente cliente = new Cliente(nombres, primerApellido, segundoApellido, new java.util.Date(fechaNacimiento), direccion, curp);
         
         cliente = clienteRepository.save(cliente);
         

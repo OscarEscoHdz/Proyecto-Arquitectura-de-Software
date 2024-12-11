@@ -1,6 +1,7 @@
 package mx.edu.uacm.is.slt.as.ws.controlador;
 
 import mx.edu.uacm.is.slt.as.ws.modelo.Beneficiario;
+import mx.edu.uacm.is.slt.as.ws.modelo.Cliente;
 import mx.edu.uacm.is.slt.as.ws.modelo.Poliza;
 import mx.edu.uacm.is.slt.as.ws.modelo.TipoPoliza;
 import mx.edu.uacm.is.slt.as.ws.repository.ClienteRepository;
@@ -44,31 +45,43 @@ public class PolizaControlador {
             @PathVariable("monto") Double monto,
             @PathVariable("descripcion") String descripcion,
             @PathVariable("curp_cliente") String curpCliente) {
+    	
+    	 // Prueba de depuración con mensajes de parámetros recibidos
+        System.out.println("Iniciando registro de póliza con los siguientes datos:");
+        System.out.println("Clave: " + clave);
+        System.out.println("Tipo: " + tipo);
+        System.out.println("Monto: " + monto);
+        System.out.println("Descripción: " + descripcion);
+        System.out.println("CURP Cliente: " + curpCliente);
 
         // Verificar si ya existe una póliza con la misma clave
         if (polizaRepository.existsById(clave)) {
             throw new RuntimeException("Ya existe una póliza con la clave: " + clave);
         }
+        
+        System.out.println("No existe una póliza con la clave proporcionada.");
 
         // Validar el tipo de póliza
         TipoPoliza tipoPoliza;
         try {
             tipoPoliza = TipoPoliza.valueOf(tipo.toUpperCase());
+            System.out.println("Tipo de póliza validado correctamente: " + tipoPoliza);
         } catch (IllegalArgumentException e) {
+        	System.out.println("Error: Tipo de póliza inválido: " + tipo);
             throw new RuntimeException("Tipo de póliza inválido: " + tipo);
         }
 
-        // Crear la nueva póliza
-        Poliza nuevaPoliza = new Poliza();
+        // Buscar el cliente por CURP
+        System.out.println("Buscando cliente con CURP: " + curpCliente);
+        Cliente cliente = clienteRepository.findById(curpCliente).orElseThrow(
+                () -> new RuntimeException("Cliente no encontrado con CURP: " + curpCliente));
+        System.out.println("Cliente encontrado: " + cliente);
         
-        nuevaPoliza.setClavePoliza(clave);
-        nuevaPoliza.setTipoPoliza(tipoPoliza);
-        nuevaPoliza.setMontoAsegurado(monto);
-        nuevaPoliza.setDescripcion(descripcion);
-        nuevaPoliza.setCliente(clienteRepository.findById(curpCliente).orElseThrow(
-        	    () -> new RuntimeException("Cliente no encontrado con CURP: " + curpCliente)));
-
-        // Guardar la póliza en la base de datos
+        // Crear y guardar la póliza usando el constructor
+        System.out.println("Creando nueva póliza...");
+        Poliza nuevaPoliza = new Poliza(clave, tipoPoliza, monto, descripcion, cliente);
+        System.out.println("Póliza creada: " + nuevaPoliza);
+        
         return polizaRepository.save(nuevaPoliza);
     }
 
