@@ -13,34 +13,31 @@ import mx.edu.uacm.is.slt.as.ws.repository.BeneficiarioRepository;
 
 @Service
 public class BeneficiarioService {
-	@Autowired
+    @Autowired
     private BeneficiarioRepository beneficiarioRepository;
 
-	public BeneficiarioService(BeneficiarioRepository beneficiarioRepository) {
-		this.beneficiarioRepository = beneficiarioRepository;
-	}
-	
-	
-	public List<Poliza> obtenerPolizasPorBeneficiario(String nombres, String primerApellido, String segundoApellido) {
-		return beneficiarioRepository.findPolizasByBeneficiarios(nombres, primerApellido, segundoApellido);
-	}
-	
-	public Beneficiario obtenerBeneficiario(Date fechaNacimiento, UUID clavePoliza, String nombres, String primerApellido, String segundoApellido) {
-		Optional<Beneficiario> beneficiario = null;
+    public BeneficiarioService(BeneficiarioRepository beneficiarioRepository) {
+        this.beneficiarioRepository = beneficiarioRepository;
+    }
 
-		if (segundoApellido != null && !segundoApellido.isEmpty()) {
-			beneficiario = beneficiarioRepository.findByNombreAndPrimerApellidoAndFechaNacimientoAndPoliza_ClavePolizaAndSegundoApellido(nombres, primerApellido, fechaNacimiento, clavePoliza, segundoApellido);
+    // Método para obtener un beneficiario
+    public Beneficiario obtenerBeneficiario(Date fechaNacimiento, UUID clavePoliza, String nombres, String primerApellido, String segundoApellido) {
+        Optional<Beneficiario> beneficiario;
 
-		} else {
-			beneficiario = beneficiarioRepository.findByNombreAndPrimerApellidoAndFechaNacimientoAndPoliza_ClavePoliza(nombres, primerApellido, fechaNacimiento, clavePoliza);
-		}
-		
-		return beneficiario.get();
-	}
+        if (segundoApellido != null && !segundoApellido.isEmpty()) {
+            beneficiario = beneficiarioRepository.findByNombreAndPrimerApellidoAndFechaNacimientoAndPolizaAndSegundoApellido(
+                    nombres, primerApellido, fechaNacimiento, clavePoliza, segundoApellido);
+        } else {
+            beneficiario = beneficiarioRepository.findByNombreAndPrimerApellidoAndFechaNacimientoAndPoliza(
+                    nombres, primerApellido, fechaNacimiento, clavePoliza);
+        }
 
+        return beneficiario.orElseThrow(() -> new RuntimeException("Beneficiario no encontrado"));
+    }
 
-	public List<Poliza> obtenerPolizasPorBeneficiarioConFecha(Date fechaNacimiento) {
-		
-		return beneficiarioRepository.findPolizasByBeneficiariosConFecha(fechaNacimiento);
-	}
+    // Método obsoleto (elimina o redefine este método si es necesario)
+    public List<Poliza> obtenerPolizasPorBeneficiario(String nombres, String primerApellido, String segundoApellido) {
+        throw new UnsupportedOperationException("Este método ya no es compatible después del cambio.");
+    }
 }
+
