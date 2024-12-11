@@ -1,8 +1,12 @@
+
 package mx.edu.uacm.is.slt.as.ws.controlador;
 
 import mx.edu.uacm.is.slt.as.ws.modelo.Beneficiario;
+import mx.edu.uacm.is.slt.as.ws.modelo.Cliente;
 import mx.edu.uacm.is.slt.as.ws.modelo.Poliza;
 import mx.edu.uacm.is.slt.as.ws.modelo.TipoPoliza;
+import mx.edu.uacm.is.slt.as.ws.repository.ClienteRepository;
+import mx.edu.uacm.is.slt.as.ws.repository.PolizaRepository;
 import mx.edu.uacm.is.slt.as.ws.services.BeneficiarioService;
 import mx.edu.uacm.is.slt.as.ws.services.ClienteService;
 import mx.edu.uacm.is.slt.as.ws.services.PolizaService;
@@ -12,27 +16,60 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-
 @RestController
-@RequestMapping("/api/polizas")
+@RequestMapping("/api/poliza") // Agregar /api al inicio de la ruta
 public class PolizaControlador {
-	
 
-	@Autowired
-	private final PolizaService polizaService;
-	@Autowired
-	private final BeneficiarioService beneficiarioService;
-	@Autowired
-	private final ClienteService clienteService;
+    @Autowired
+    private final PolizaService polizaService;
+    @Autowired
+    private final BeneficiarioService beneficiarioService;
+    @Autowired
+    private final ClienteService clienteService;
+    @Autowired
+    private PolizaRepository polizaRepository;
+    @Autowired
+    private ClienteRepository clienteRepository;
 
-    // Constructor para inyección de dependencias (services)
     public PolizaControlador(PolizaService polizaService, ClienteService clienteService, BeneficiarioService beneficiarioService) {
         this.polizaService = polizaService;
         this.clienteService = clienteService;
         this.beneficiarioService = beneficiarioService;
     }
-   
-    //Operaciones Get
+
+    @PostMapping("/poliza/{clave}/{tipo}/{monto}/{descripcion}/{curp_cliente}")
+    public Poliza registrarPoliza(
+            @PathVariable("clave") UUID clave,
+            @PathVariable("tipo") int tipo,
+            @PathVariable("monto") Double monto,
+            @PathVariable("descripcion") String descripcion,
+            @PathVariable("curp_cliente") String curpCliente) {
+
+        System.out.println("Iniciando registro de póliza con los siguientes datos:");
+        System.out.println("Clave: " + clave);
+        System.out.println("Tipo (ordinal): " + tipo);
+        System.out.println("Monto: " + monto);
+        System.out.println("Descripción: " + descripcion);
+        System.out.println("CURP Cliente: " + curpCliente);
+
+        if (polizaRepository.existsById(clave)) {
+            throw new RuntimeException("Ya existe una póliza con la clave: " + clave);
+        }
+
+        TipoPoliza tipoPoliza;
+        try {
+            tipoPoliza = TipoPoliza.values()[tipo]; // Convertir ordinal a Enum
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new RuntimeException("Tipo de póliza inválido: " + tipo);
+        }
+
+        Cliente cliente = clienteRepository.findById(curpCliente).orElseThrow(
+                () -> new RuntimeException("Cliente no encontrado con CURP: " + curpCliente));
+
+        Poliza nuevaPoliza = new Poliza(clave, tipoPoliza, monto, descripcion, cliente);
+
+        return polizaRepository.save(nuevaPoliza);
+    }
 
     //Devuelve todas las polizas
     @GetMapping("/")
@@ -45,7 +82,6 @@ public class PolizaControlador {
 		return "Poliza con ID: "+ id;
 	}
 	
-
     //Devuelve la poliza con la clave dada
     @GetMapping("/clave/{UUID}")
     public Poliza obtenerPoliza(@PathVariable("UUID") UUID id) {
@@ -82,8 +118,6 @@ public class PolizaControlador {
         return polizaService.obtenerPolizasPorCurp(curp);
     }
     
-    //Operaciones Put
-    
     //Actualiza el cliente con los atributos dados.
     @PutMapping("/cliente/{curp}/{direccion}/{fecha_nacimiento}/{nombres}/{primer_apellido}/{segundo_apellido}")
     public String actualizarCliente(@PathVariable("curp") String curp,
@@ -107,12 +141,6 @@ public class PolizaControlador {
         polizaService.actualizarPolizaConAtributos(clave, tipo, monto, descripcion, curpCliente);
         return "Póliza actualizada con éxito";
     }
-    
-
-    
-    //Operaciones POST
-    
-    
     
     @PostMapping("/cliente/{curp}")
     public Poliza crearPoliza(@PathVariable("curp") String curp, @RequestBody Poliza poliza) {

@@ -1,6 +1,6 @@
 package mx.edu.uacm.is.slt.as.ws.modelo;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import jakarta.persistence.CascadeType;
@@ -24,21 +24,16 @@ public class Cliente extends Persona{
 		super(nombre, primerApellido, segundoApellido, fechaNacimiento);
 		this.direccion = direccion;
 		this.curp = curp;
-		
 	}
-	
 	
 	public Cliente() {
 		
 	}
 	
-	
-	
 	public Cliente(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento)
 			throws Exception {
 		super(nombre, primerApellido, segundoApellido, fechaNacimiento);
 	}
-
 
 	public Cliente(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento, String direccion,
 			String curp, Poliza poliza) throws Exception {
