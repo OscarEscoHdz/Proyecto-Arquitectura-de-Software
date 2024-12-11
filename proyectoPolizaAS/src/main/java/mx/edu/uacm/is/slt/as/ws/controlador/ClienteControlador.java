@@ -35,20 +35,16 @@ public class ClienteControlador {
             @PathVariable(value = "segundo_apellido", required = false) String segundoApellido) {
 
         try {
-            // Si el segundo apellido es nulo o vacío, maneja un valor por defecto
             if (segundoApellido == null || segundoApellido.isEmpty()) {
                 segundoApellido = "N/A";
             }
 
-            // Crear cliente
             Cliente cliente = new Cliente(nombres, primerApellido, segundoApellido, fechaNacimiento, direccion, curp);
 
-            // Guardar cliente en la base de datos
             clienteRepository.save(cliente);
 
             return ResponseEntity.ok("Cliente registrado con éxito: " + cliente);
         } catch (Exception e) {
-            // Manejo de errores
             return ResponseEntity.status(500).body("Error interno del servidor: " + e.getMessage());
         }
     }

@@ -59,14 +59,15 @@ public class BeneficiarioControlador {
                         .body(null); // Beneficiario ya existe
             }
 
-            // Crear un nuevo beneficiario
-            Beneficiario beneficiario = new Beneficiario();
-            beneficiario.setNombre(nombres);
-            beneficiario.setPrimerApellido(primerApellido);
-            beneficiario.setSegundoApellido(segundoApellido);
-            beneficiario.setFechaNacimiento(sqlFechaNacimiento); // Usar java.sql.Date
-            beneficiario.setPoliza(clavePoliza); // Ajustar para usar el UUID directamente
-            beneficiario.setPorcentaje(porcentaje.floatValue()); // Convertir de Double a float
+            // Crear un nuevo beneficiario usando el constructor
+            Beneficiario beneficiario = new Beneficiario(
+                    nombres, // nombre
+                    primerApellido, // primerApellido
+                    segundoApellido != null ? segundoApellido : "N/A", // segundoApellido (valor por defecto "N/A" si no se proporciona)
+                    sqlFechaNacimiento, // fechaNacimiento
+                    porcentaje.floatValue(), // porcentaje convertido a float
+                    clavePoliza // poliza
+            );
 
             // Guardar el beneficiario en la base de datos
             Beneficiario nuevoBeneficiario = beneficiarioRepository.save(beneficiario);
@@ -81,5 +82,4 @@ public class BeneficiarioControlador {
                     .body(null); // Manejar cualquier otro error
         }
     }
-
 }

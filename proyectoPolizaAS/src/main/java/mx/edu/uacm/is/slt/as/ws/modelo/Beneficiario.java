@@ -35,8 +35,15 @@ public class Beneficiario extends Persona {
         this.porcentaje = porcentaje;
         this.poliza = poliza;
     }
+    
+    public Beneficiario(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento,
+			float porcentaje, UUID poliza) throws Exception {
+		super(nombre, primerApellido, segundoApellido, fechaNacimiento);
+		this.porcentaje = porcentaje;
+		this.poliza = poliza;
+	}
 
-    public Beneficiario() {}
+	public Beneficiario() {}
 
     // Getters y Setters
     public Long getId() {
