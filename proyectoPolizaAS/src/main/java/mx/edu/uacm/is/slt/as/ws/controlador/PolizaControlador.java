@@ -11,8 +11,11 @@ import mx.edu.uacm.is.slt.as.ws.services.BeneficiarioService;
 import mx.edu.uacm.is.slt.as.ws.services.ClienteService;
 import mx.edu.uacm.is.slt.as.ws.services.PolizaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
