@@ -40,19 +40,16 @@ public class Persona {
 		return nombre;
 	}
 	
-	//lo agrego Oscar
-	public String setNombre(String string) {
-		return nombre;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 	
-	//lo agrego Oscar
-	public String setPrimerApellido(String string){
-		return primerApellido;
+	public void setPrimerApellido(String primerApellido){
+		this.primerApellido = primerApellido;
 	}
 	
-	//lo agrego Oscar
-	public String setSegundoApellido(String string) {
-		return segundoApellido;
+	public void setSegundoApellido(String segundoApellido) {
+		this.segundoApellido = segundoApellido;
 	}
 
 
