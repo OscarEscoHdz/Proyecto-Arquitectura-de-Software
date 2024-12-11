@@ -30,38 +30,47 @@ public class Beneficiario extends Persona{
 		this.porcentaje = porcentaje;
 		this.poliza = poliza;
 	}
+	
+	public Beneficiario(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento)
+			throws Exception {
+		super(nombre, primerApellido, segundoApellido, fechaNacimiento);
+	}
 
+	public Beneficiario(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento,
+			float porcentaje, Poliza poliza) throws Exception {
+		super(nombre, primerApellido, segundoApellido, fechaNacimiento);
+		this.porcentaje = porcentaje;
+		this.poliza = poliza;
+	}
+
+	public Beneficiario() {
+		
+	}
 
 	public Long getId() {
 		return id;
 	}
 
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 
 	public float getPorcentaje() {
 		return porcentaje;
 	}
 
-
 	public void setPorcentaje(float porcentaje) {
 		this.porcentaje = porcentaje;
 	}
-
 
 	public Poliza getPoliza() {
 		return poliza;
 	}
 
-
 	public void setPoliza(Poliza poliza) {
 		this.poliza = poliza;
 	}
 
-	
 	 @Override
 	    public boolean equals(Object o) {
 	        if (super.equals(o)) {

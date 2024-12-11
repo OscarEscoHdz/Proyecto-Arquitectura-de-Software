@@ -1,97 +1,117 @@
 package mx.edu.uacm.is.slt.as.ws.controlador;
 
-import mx.edu.uacm.is.slt.as.ws.modelo.*;
-import mx.edu.uacm.is.slt.as.ws.repository.*;
-
-
+import mx.edu.uacm.is.slt.as.ws.modelo.Beneficiario;
+import mx.edu.uacm.is.slt.as.ws.modelo.Cliente;
+import mx.edu.uacm.is.slt.as.ws.modelo.Poliza;
+import mx.edu.uacm.is.slt.as.ws.modelo.TipoPoliza;
+import mx.edu.uacm.is.slt.as.ws.repository.ClienteRepository;
+import mx.edu.uacm.is.slt.as.ws.repository.PolizaRepository;
+import mx.edu.uacm.is.slt.as.ws.services.BeneficiarioService;
+import mx.edu.uacm.is.slt.as.ws.services.ClienteService;
+import mx.edu.uacm.is.slt.as.ws.services.PolizaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import excepcion.ResourceNotFoundException;
-
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/polizas")
 public class PolizaControlador {
-
+	
 	@Autowired
-    private final PolizaRepository polizaRepository;
+	private final PolizaService polizaService;
 	@Autowired
-    private final ClienteRepository clienteRepository;
+	private final BeneficiarioService beneficiarioService;
 	@Autowired
-    private final BeneficiarioRepository beneficiarioRepository;
+	private final ClienteService clienteService;
+	@Autowired
+	private PolizaRepository polizaRepository;
+	@Autowired
+	private ClienteRepository clienteRepository;
 
-    // Constructor para inyección de dependencias (repositorios)
-    public PolizaControlador(PolizaRepository polizaRepository, ClienteRepository clienteRepository, BeneficiarioRepository beneficiarioRepository) {
-        this.polizaRepository = polizaRepository;
-        this.clienteRepository = clienteRepository;
-        this.beneficiarioRepository = beneficiarioRepository;
+    // Constructor para inyección de dependencias (services)
+    public PolizaControlador(PolizaService polizaService, ClienteService clienteService, BeneficiarioService beneficiarioService) {
+        this.polizaService = polizaService;
+        this.clienteService = clienteService;
+        this.beneficiarioService = beneficiarioService;
     }
-
-
-    // 3. Crear una nueva póliza
-    @PostMapping("/cliente/{curp}")
-    public Poliza crearPoliza(@PathVariable("curp") UUID curp, @RequestBody Poliza poliza) {
-        Cliente cliente = clienteRepository.findByCurp(curp)
-            .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
-        poliza.setCliente(cliente);
-        return polizaRepository.save(poliza);
-    }
-
-    // 4. Actualizar una póliza
-    @PutMapping("/{id}")
-    public Poliza actualizarPoliza(@PathVariable("id") UUID id, @RequestBody Poliza polizaActualizada) {
-        Poliza poliza = polizaRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Poliza no encontrada"));
-        poliza.setTipoPoliza(polizaActualizada.getTipoSeguro());
-        poliza.setMontoAsegurado(polizaActualizada.getMontoAsegurado());
-        poliza.setDescripcion(polizaActualizada.getDescripcion());
-        return polizaRepository.save(poliza);
-    }
-
-    // 5. Eliminar una póliza
-    @DeleteMapping("/{id}")
-    public String eliminarPoliza(@PathVariable("id") UUID id) {
-        Poliza poliza = polizaRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Poliza no encontrada"));
-        polizaRepository.delete(poliza);
-        return "Poliza eliminada con éxito";
-    }
-
-   
     
-    //Operaciones Get
+    @PostMapping("/poliza/{clave}/{tipo}/{monto}/{descripcion}/{curp_cliente}")
+    public Poliza registrarPoliza(
+            @PathVariable("clave") UUID clave,
+            @PathVariable("tipo") int tipo, // Cambiar a int para aceptar el ordinal
+            @PathVariable("monto") Double monto,
+            @PathVariable("descripcion") String descripcion,
+            @PathVariable("curp_cliente") String curpCliente) {
+
+        System.out.println("Iniciando registro de póliza con los siguientes datos:");
+        System.out.println("Clave: " + clave);
+        System.out.println("Tipo (ordinal): " + tipo);
+        System.out.println("Monto: " + monto);
+        System.out.println("Descripción: " + descripcion);
+        System.out.println("CURP Cliente: " + curpCliente);
+
+        // Verificar si ya existe una póliza con la misma clave
+        if (polizaRepository.existsById(clave)) {
+            throw new RuntimeException("Ya existe una póliza con la clave: " + clave);
+        }
+
+        System.out.println("No existe una póliza con la clave proporcionada.");
+
+        // Validar el ordinal del tipo de póliza
+        TipoPoliza tipoPoliza;
+        try {
+            tipoPoliza = TipoPoliza.values()[tipo]; // Convertir ordinal a Enum
+            System.out.println("Tipo de póliza validado correctamente: " + tipoPoliza);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Error: Tipo de póliza inválido: " + tipo);
+            throw new RuntimeException("Tipo de póliza inválido: " + tipo);
+        }
+
+        // Buscar el cliente por CURP
+        System.out.println("Buscando cliente con CURP: " + curpCliente);
+        Cliente cliente = clienteRepository.findById(curpCliente).orElseThrow(
+                () -> new RuntimeException("Cliente no encontrado con CURP: " + curpCliente));
+        System.out.println("Cliente encontrado: " + cliente);
+
+        // Crear y guardar la póliza usando el constructor
+        System.out.println("Creando nueva póliza...");
+        Poliza nuevaPoliza = new Poliza(clave, tipoPoliza, monto, descripcion, cliente);
+        System.out.println("Póliza creada: " + nuevaPoliza);
+
+        return polizaRepository.save(nuevaPoliza);
+    }
 
     //Devuelve todas las polizas
     @GetMapping("/")
     public List<Poliza> obtenerTodasLasPolizas() {
-        return polizaRepository.findAll();
+        return polizaService.obtenerTodasLasPolizas();
     }
-
-    //Devuelve la poliza con la clave dada
+    
     @GetMapping("/{id}")
-    public Poliza obtenerPoliza(@PathVariable("id") UUID id) {
-        return polizaRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Poliza no encontrada"));
+	public String obtenerPoliza(@PathVariable("id") Long id) {
+		return "Poliza con ID: "+ id;
+	}
+	
+    //Devuelve la poliza con la clave dada
+    @GetMapping("/clave/{UUID}")
+    public Poliza obtenerPoliza(@PathVariable("UUID") UUID id) {
+       return polizaService.obtenerPoliza(id);
     }
     
     //Devuelve todas las polizas por el tipo de poliza dado
-    @GetMapping("/{tipoPoliza}")
+    @GetMapping("/tipo/{tipoPoliza}")
     public List<Poliza> obtenerPolizasTipo(@PathVariable("tipoPoliza") TipoPoliza tipoPoliza){
-    	return polizaRepository.findByTipoPoliza(tipoPoliza);
+    	return polizaService.obtenerPolizasTipo(tipoPoliza);
     }
     
-  
-    //Devuelve las polizas por el beneficiario dado
     @GetMapping("/b/{nombres}/{primer_apellido}/{segundo_apellido}")
     public List<Poliza> obtenerPolizasPorBeneficiario(@PathVariable("nombres") String nombres,
                                                       @PathVariable("primer_apellido") String primerApellido,
                                                       @PathVariable("segundo_apellido") String segundoApellido) {
-        return beneficiarioRepository.findPolizasByBeneficiarios(nombres, primerApellido, segundoApellido);
+        return beneficiarioService.obtenerPolizasPorBeneficiario(nombres, primerApellido, segundoApellido);
     }
     
     //Devuelve el registro del beneficiario de la póliza solicitada de existir. En otro caso devuelve null.
@@ -101,25 +121,49 @@ public class PolizaControlador {
                                             @PathVariable("nombres") String nombres,
                                             @PathVariable("primer_apellido") String primerApellido,
                                             @PathVariable("segundo_apellido") String segundoApellido) {
-    	Optional<Beneficiario> beneficiario = null;
     	
-    	if (segundoApellido != null && !segundoApellido.isEmpty()) {
-    		beneficiario = beneficiarioRepository.findByNombreAndPrimerApellidoAndFechaNacimientoAndPoliza_ClavePolizaAndSegundoApellido(nombres, primerApellido, fechaNacimiento, clavePoliza, segundoApellido);
-
-        } else {
-        	beneficiario = beneficiarioRepository.findByNombreAndPrimerApellidoAndFechaNacimientoAndPoliza_ClavePoliza(
-                    nombres, primerApellido, fechaNacimiento, clavePoliza);
-        }
-    	
-    	return beneficiario.get();
+    	return beneficiarioService.obtenerBeneficiario(fechaNacimiento, clavePoliza, nombres, primerApellido, segundoApellido);
        
     }
     
     @GetMapping("/cliente/{curp}")
-    public List<Poliza> obtenerPolizasPorCurp(@PathVariable("curp") UUID curp) {
-        Cliente cliente = clienteRepository.findByCurp(curp)
-            .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
-        return polizaRepository.findByCliente(cliente);
+    public List<Poliza> obtenerPolizasPorCurp(@PathVariable("curp") String curp) {
+        return polizaService.obtenerPolizasPorCurp(curp);
     }
-
+    
+    //Actualiza el cliente con los atributos dados.
+    @PutMapping("/cliente/{curp}/{direccion}/{fecha_nacimiento}/{nombres}/{primer_apellido}/{segundo_apellido}")
+    public String actualizarCliente(@PathVariable("curp") String curp,
+                                    @PathVariable("direccion") String direccion,
+                                    @PathVariable("fecha_nacimiento") Date fechaNacimiento,
+                                    @PathVariable("nombres") String nombres,
+                                    @PathVariable("primer_apellido") String primerApellido,
+                                    @PathVariable(value = "segundo_apellido", required = false) String segundoApellido) {
+        
+    	clienteService.actualizarCliente(curp, direccion, new java.sql.Date(fechaNacimiento.getTime()), nombres, primerApellido, segundoApellido);
+        return "Cliente actualizado con éxito";
+    }
+    
+    //Actualiza la poliza con los atributos dados
+    @PutMapping("/poliza/{clave}/{tipo}/{monto}/{descripcion}/{curp_cliente}")
+    public String actualizarPoliza(@PathVariable("clave") UUID clave,
+                                    @PathVariable("tipo") TipoPoliza tipo,
+                                    @PathVariable("monto") double monto,
+                                    @PathVariable("descripcion") String descripcion,
+                                    @PathVariable("curp_cliente") String curpCliente) {
+        polizaService.actualizarPolizaConAtributos(clave, tipo, monto, descripcion, curpCliente);
+        return "Póliza actualizada con éxito";
+    }
+    
+    @PostMapping("/cliente/{curp}")
+    public Poliza crearPoliza(@PathVariable("curp") String curp, @RequestBody Poliza poliza) {
+        return polizaService.crearPoliza(curp,poliza);
+    }
+    
+    //Operacion DELET
+    @DeleteMapping("/{id}")
+    public String eliminarPoliza(@PathVariable("id")UUID id) {
+    	polizaService.eliminarPoliza(id);
+    	return "Poliza eliminada con exito";
+    }
 }

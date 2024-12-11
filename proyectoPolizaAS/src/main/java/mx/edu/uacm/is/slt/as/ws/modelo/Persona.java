@@ -1,6 +1,6 @@
 package mx.edu.uacm.is.slt.as.ws.modelo;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,11 +24,32 @@ public class Persona {
 			throw new Exception("Error: "+e);
 		}	
 	}
+	
+	
+
+
+	public Persona() {
+		super();
+	}
+
+
 
 
 	public String getNombre() {
 		
 		return nombre;
+	}
+	
+	public void setNombre(String string) {
+		this.nombre = nombre;
+	}
+	
+	public void setPrimerApellido(String string){
+		this.primerApellido = primerApellido;
+	}
+	
+	public void setSegundoApellido(String string) {
+		this.segundoApellido = segundoApellido;
 	}
 
 
@@ -79,7 +100,7 @@ public class Persona {
 	}
 
 
-	private void asignarFechaNacimiento(Date fechaNacimiento) {
+	public void asignarFechaNacimiento(Date fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 	
