@@ -21,10 +21,14 @@ public interface BeneficiarioRepository extends JpaRepository<Beneficiario, Long
     Optional<Beneficiario> findByNombreAndPrimerApellidoAndFechaNacimientoAndPoliza_ClavePoliza(
             String nombre, String primerApellido, Date fechaNacimiento, UUID clavePoliza);
 	
+    
+    
 	@Query("SELECT p FROM Poliza p JOIN p.beneficiarios b WHERE b.nombre = :nombre AND b.primerApellido = :primerApellido AND b.segundoApellido = :segundoApellido")
     List<Poliza> findPolizasByBeneficiarios(
         @Param("nombre") String nombre,
         @Param("primerApellido") String primerApellido,
         @Param("segundoApellido") String segundoApellido
     );
+
+	List<Poliza> findPolizasByBeneficiariosConFecha(Date fechaNacimiento);
 }

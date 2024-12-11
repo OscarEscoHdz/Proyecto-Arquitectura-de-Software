@@ -1,5 +1,6 @@
 package mx.edu.uacm.is.slt.as.ws.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -57,6 +58,19 @@ public class PolizaService {
 	 public List<Poliza> obtenerPolizasTipo(TipoPoliza tipoPoliza){
 		 return polizaRepository.findByTipoPoliza(tipoPoliza);
 	 }
+	 
+	 
+	 public List<Poliza> obtenerPolizasPorFechaDeNacimiento(Date fechaNacimineto) {
+	        Cliente cliente = clienteRepository.findByFechaNacimiento(fechaNacimineto)
+	            .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
+	        return polizaRepository.findByCliente(cliente);
+	    }
+	 
+	 public List<Poliza> obtenerPolizasPorNombre(String nombre, String apPaterno, String apMaterno) {
+		    Cliente cliente = clienteRepository.findByNombreAndApPaternoAndApMaterno(nombre, apPaterno, apMaterno)
+		        .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
+		    return polizaRepository.findByCliente(cliente);
+		}
 	 
 	 public List<Poliza> obtenerPolizasPorCurp(String curp) {
 	        Cliente cliente = clienteRepository.findByCurp(curp)
