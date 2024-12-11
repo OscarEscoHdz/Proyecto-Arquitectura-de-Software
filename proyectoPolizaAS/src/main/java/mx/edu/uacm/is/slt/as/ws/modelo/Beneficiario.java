@@ -25,7 +25,6 @@ public class Beneficiario extends Persona {
     @Column(name = "id_poliza", nullable = false)
     private UUID poliza;
 
-    // Otros atributos...
 
     // Constructores
     public Beneficiario(String nombre, String primerApellido, String segundoApellido, Date fechaNacimiento,

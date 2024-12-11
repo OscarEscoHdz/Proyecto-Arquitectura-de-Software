@@ -11,8 +11,11 @@ import mx.edu.uacm.is.slt.as.ws.services.BeneficiarioService;
 import mx.edu.uacm.is.slt.as.ws.services.ClienteService;
 import mx.edu.uacm.is.slt.as.ws.services.PolizaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -98,20 +101,29 @@ public class PolizaControlador {
     public List<Poliza> obtenerPolizasPorBeneficiario(@PathVariable("nombres") String nombres,
                                                       @PathVariable("primer_apellido") String primerApellido,
                                                       @PathVariable("segundo_apellido") String segundoApellido) {
+    	System.out.print(nombres+'\n');
+    	System.out.print(primerApellido+'\n');
+    	System.out.print(segundoApellido+'\n');
         return beneficiarioService.obtenerPolizasPorBeneficiario(nombres, primerApellido, segundoApellido);
     }
     
     //Devuelve el registro del beneficiario de la póliza solicitada de existir. En otro caso devuelve null.
     @GetMapping("/beneficiario/{fecha_nacimiento}/{clave_poliza}/{nombres}/{primer_apellido}/{segundo_apellido}")
-    public Beneficiario obtenerBeneficiario(@PathVariable("fecha_nacimiento") Date fechaNacimiento,
-                                            @PathVariable("clave_poliza") UUID clavePoliza,
-                                            @PathVariable("nombres") String nombres,
-                                            @PathVariable("primer_apellido") String primerApellido,
-                                            @PathVariable("segundo_apellido") String segundoApellido) {
-    	
-    	return beneficiarioService.obtenerBeneficiario(fechaNacimiento, clavePoliza, nombres, primerApellido, segundoApellido);
-       
+    public Beneficiario obtenerBeneficiario(
+    		@PathVariable("fecha_nacimiento") String fechaNacimiento,
+            @PathVariable("clave_poliza") UUID clavePoliza,
+            @PathVariable("nombres") String nombres,
+            @PathVariable("primer_apellido") String primerApellido,
+            @PathVariable("segundo_apellido") String segundoApellido) throws ParseException {
+        
+      
+    	 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+         Date fecha = formatter.parse(fechaNacimiento);
+            
+            return beneficiarioService.obtenerBeneficiario(fecha, clavePoliza, nombres, primerApellido, segundoApellido);
+        
     }
+
     
     @GetMapping("/cliente/{curp}")
     public List<Poliza> obtenerPolizasPorCurp(@PathVariable("curp") String curp) {

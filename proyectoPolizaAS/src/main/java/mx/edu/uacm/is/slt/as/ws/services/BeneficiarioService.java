@@ -1,5 +1,6 @@
 package mx.edu.uacm.is.slt.as.ws.services;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -35,9 +36,9 @@ public class BeneficiarioService {
         return beneficiario.orElseThrow(() -> new RuntimeException("Beneficiario no encontrado"));
     }
 
-    // Método obsoleto (elimina o redefine este método si es necesario)
     public List<Poliza> obtenerPolizasPorBeneficiario(String nombres, String primerApellido, String segundoApellido) {
-        throw new UnsupportedOperationException("Este método ya no es compatible después del cambio.");
+    	
+        return beneficiarioRepository.findPolizasByBeneficiarios(nombres, primerApellido, segundoApellido);
     }
 }
 
