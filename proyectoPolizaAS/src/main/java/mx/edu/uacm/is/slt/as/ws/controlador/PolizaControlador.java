@@ -1,4 +1,3 @@
-
 package mx.edu.uacm.is.slt.as.ws.controlador;
 
 import mx.edu.uacm.is.slt.as.ws.modelo.Beneficiario;
@@ -11,39 +10,38 @@ import mx.edu.uacm.is.slt.as.ws.services.BeneficiarioService;
 import mx.edu.uacm.is.slt.as.ws.services.ClienteService;
 import mx.edu.uacm.is.slt.as.ws.services.PolizaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
 @RestController
-@RequestMapping("/api/poliza") // Agregar /api al inicio de la ruta
+@RequestMapping("/api/polizas")
 public class PolizaControlador {
+	
+	@Autowired
+	private final PolizaService polizaService;
+	@Autowired
+	private final BeneficiarioService beneficiarioService;
+	@Autowired
+	private final ClienteService clienteService;
+	@Autowired
+	private PolizaRepository polizaRepository;
+	@Autowired
+	private ClienteRepository clienteRepository;
 
-    @Autowired
-    private final PolizaService polizaService;
-    @Autowired
-    private final BeneficiarioService beneficiarioService;
-    @Autowired
-    private final ClienteService clienteService;
-    @Autowired
-    private PolizaRepository polizaRepository;
-    @Autowired
-    private ClienteRepository clienteRepository;
-
+    // Constructor para inyección de dependencias (services)
     public PolizaControlador(PolizaService polizaService, ClienteService clienteService, BeneficiarioService beneficiarioService) {
         this.polizaService = polizaService;
         this.clienteService = clienteService;
         this.beneficiarioService = beneficiarioService;
     }
-
+    
     @PostMapping("/poliza/{clave}/{tipo}/{monto}/{descripcion}/{curp_cliente}")
     public Poliza registrarPoliza(
             @PathVariable("clave") UUID clave,
-            @PathVariable("tipo") int tipo,
+            @PathVariable("tipo") int tipo, // Cambiar a int para aceptar el ordinal
             @PathVariable("monto") Double monto,
             @PathVariable("descripcion") String descripcion,
             @PathVariable("curp_cliente") String curpCliente) {
@@ -55,21 +53,33 @@ public class PolizaControlador {
         System.out.println("Descripción: " + descripcion);
         System.out.println("CURP Cliente: " + curpCliente);
 
+        // Verificar si ya existe una póliza con la misma clave
         if (polizaRepository.existsById(clave)) {
             throw new RuntimeException("Ya existe una póliza con la clave: " + clave);
         }
 
+        System.out.println("No existe una póliza con la clave proporcionada.");
+
+        // Validar el ordinal del tipo de póliza
         TipoPoliza tipoPoliza;
         try {
             tipoPoliza = TipoPoliza.values()[tipo]; // Convertir ordinal a Enum
+            System.out.println("Tipo de póliza validado correctamente: " + tipoPoliza);
         } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Error: Tipo de póliza inválido: " + tipo);
             throw new RuntimeException("Tipo de póliza inválido: " + tipo);
         }
 
+        // Buscar el cliente por CURP
+        System.out.println("Buscando cliente con CURP: " + curpCliente);
         Cliente cliente = clienteRepository.findById(curpCliente).orElseThrow(
                 () -> new RuntimeException("Cliente no encontrado con CURP: " + curpCliente));
+        System.out.println("Cliente encontrado: " + cliente);
 
+        // Crear y guardar la póliza usando el constructor
+        System.out.println("Creando nueva póliza...");
         Poliza nuevaPoliza = new Poliza(clave, tipoPoliza, monto, descripcion, cliente);
+        System.out.println("Póliza creada: " + nuevaPoliza);
 
         return polizaRepository.save(nuevaPoliza);
     }
