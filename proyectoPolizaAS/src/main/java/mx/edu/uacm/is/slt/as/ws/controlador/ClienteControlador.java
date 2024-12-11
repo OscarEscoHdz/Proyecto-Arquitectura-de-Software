@@ -1,5 +1,6 @@
 package mx.edu.uacm.is.slt.as.ws.controlador;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -17,25 +18,28 @@ public class ClienteControlador {
 	@Autowired
     private ClienteRepository clienteRepository;
 	
-	@PostMapping("/{curp}/{direccion}/{fecha_nacimiento}/{nombres}/{primer_apellido}/{segundo_apellido}")
+	@PostMapping("/{curp}/{direccion}/{fecha_nacimiento}/{nombre}/{primer_apellido}/{segundo_apellido}")
     public Cliente crearCliente(
             @PathVariable("curp") String curp,
             @PathVariable("direccion") String direccion,
             @PathVariable("fecha_nacimiento") String fechaNacimiento,
-            @PathVariable("nombres") String nombres,
+            @PathVariable("nombre") String nombre,
             @PathVariable("primer_apellido") String primerApellido,
             @PathVariable("segundo_apellido") String segundoApellido) throws Exception {
 		
-		System.out.println("Se mete a esta clase");
-		
-        
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date fecha = dateFormat.parse(fechaNacimiento);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	    Date fecha = null; // Declarar la variable fuera del bloque try-catch
+
+	    try {
+	        // Intentar parsear la fecha
+	        fecha = dateFormat.parse(fechaNacimiento);
+	    } catch (ParseException e) {
+	        // Manejar el error si el formato de la fecha es incorrecto
+	        throw new IllegalArgumentException("Formato de fecha inválido: " + fechaNacimiento, e);
+	    }
         	
-        System.out.println("Tipo Recibido");
-        
         // Crear el cliente
-        Cliente cliente = new Cliente(nombres, primerApellido, segundoApellido, new java.util.Date(fechaNacimiento), direccion, curp);
+        Cliente cliente = new Cliente(nombre, primerApellido, segundoApellido, fecha, direccion, curp);
         
         cliente = clienteRepository.save(cliente);
         

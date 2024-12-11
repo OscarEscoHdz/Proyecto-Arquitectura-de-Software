@@ -97,7 +97,4 @@ public class PolizaService {
 		  
 		    polizaRepository.save(poliza);
 		}
-
-
-	
 }
